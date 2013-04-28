@@ -1,0 +1,34 @@
+{
+    "code": "18",
+    "fullname": "Nome Sobrenome",
+    "email": "nome@exemplo.com",
+    "cpf": "22222222222",
+    "phone_area_code": "11",
+    "phone_number": "990909090",
+    "birthdate_day": 29,
+    "birthdate_month": 3,
+    "birthdate_year": 1980,
+    "address": {
+        "street": "Rua Nome da Rua",
+        "number": "1000",
+        "complement": "Apto 4 - bloco A",
+        "district": "Bairro",
+        "city": "São Paulo",
+        "state": "SP",
+        "country": "BRA",
+        "zipcode": "00000000"
+    },
+    "billing_info": {
+        "credit_cards": [
+            {
+                "vault": "00b21555-296a-4e70-94cd-3e96fef62e5b",
+                "brand": "VISA",
+                "first_six_digits": "411111",
+                "last_four_digits": "1111",
+                "expiration_month": "04",
+                "expiration_year": "15",
+                "holder_name": "Nome Sobrenome"
+            }
+        ]
+    }
+}
