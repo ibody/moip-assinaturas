@@ -1,0 +1,32 @@
+{
+    "code": "assinatura1",
+    "amount": "100",
+    "status": "ACTIVE",
+    "creation_date": {
+        "day": "20",
+        "month": "10",
+        "year": "2012",
+        "hour": "20",
+        "minute": "00",
+        "second": "00"
+    },
+    "next_invoice_date": {
+        "day": "20",
+        "month": "11",
+        "year": "2012"
+    },
+    "expiration_date": {
+        "day": "20",
+        "month": "10",
+        "year": "2013"
+    },
+    "plan": {
+        "name": "Plano Ouro Ilimitado",
+        "code": "plano1"
+    },
+    "customer": {
+        "code": "cliente1",
+        "fullname": "Nome e Sobrenome",
+        "email": "assinaturas@moip.com.br"
+    }
+}

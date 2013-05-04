@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Moip::Assinaturas::VERSION
   gem.authors       = ["Warlley"]
   gem.email         = ["warlleyrezende@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Ruby Gem para uso do serviço de assinaturas do Moip}
+  gem.summary       = %q{Ruby Gem para uso do serviço de assinaturas do Moip}
+  gem.homepage      = "https://github.com/ibody/moip-assinaturas"
 
   gem.add_development_dependency 'rspec',         '~> 2.13'
   gem.add_development_dependency 'guard-rspec',   '~> 2.5.4'

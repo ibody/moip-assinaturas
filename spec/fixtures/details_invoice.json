@@ -1,0 +1,36 @@
+{
+    "id": 13,
+    "amount": 101,
+    "subscription_code": "assinatura7",
+    "occurrence": 1,
+    "status": {
+        "code": 2,
+        "description": "Aguardando confirmação"
+    },
+    "items": [
+        {
+            "amount": 100,
+            "type": "Valor da assinatura"
+        },
+        {
+            "amount": 1,
+            "type": "Taxa de contratação"
+        }
+    ],
+    "plan": {
+        "code": "plano1",
+        "name": "Plano 1 real"
+    },
+    "customer": {
+        "code": "cliente1",
+        "fullname": "Fulano Testador"
+    },
+    "creation_date": {
+        "day": 28,
+        "month": 12,
+        "year": 2012,
+        "hour": 15,
+        "minute": 38,
+        "second": 41
+    }
+}

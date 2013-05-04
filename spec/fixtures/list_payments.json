@@ -1,0 +1,32 @@
+{
+    "payments": [
+        {
+            "id": 6,
+            "moip_id": 7205895,
+            "status": {
+                "code": 6,
+                "description": "Em análise"
+            },
+            "payment_method": {
+                "code": 1,
+                "description": "Cartão de Crédito",
+                "credit_card": {
+                    "brand": "VISA",
+                    "holder_name": "Fulano Testador",
+                    "first_six_digits": "411111",
+                    "last_four_digits": "1111",
+                    "expiration_month": "03",
+                    "expiration_year": "16"
+                }
+            },
+            "creation_date": {
+                "day": 28,
+                "month": 12,
+                "year": 2012,
+                "hour": 15,
+                "minute": 38,
+                "second": 41
+            }
+        }
+    ]
+}

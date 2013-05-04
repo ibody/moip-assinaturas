@@ -61,7 +61,7 @@ describe Moip::Assinaturas::Customer do
     request[:success].should be_true
   end
 
-  it "should get a customers list" do
+  it "should list all customers" do
     request = Moip::Assinaturas::Customer.list
     request[:success].should         be_true
     request[:customers].size.should  == 1

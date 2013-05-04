@@ -33,6 +33,42 @@ module Moip::Assinaturas
         peform_action!(:get, "/customers/#{code}", { headers: { 'Content-Type' => 'application/json' } })
       end
 
+      def create_subscription(subscription, new_customer)
+        peform_action!(:post, "/subscriptions?new_customer=#{new_customer}", { body: subscription.to_json, headers: { 'Content-Type' => 'application/json' } })
+      end
+
+      def list_subscriptions
+        peform_action!(:get, "/subscriptions", { headers: { 'Content-Type' => 'application/json' } })        
+      end
+
+      def details_subscription(code)
+        peform_action!(:get, "/subscriptions/#{code}", { headers: { 'Content-Type' => 'application/json' } })
+      end
+
+      def suspend_subscription(code)
+        peform_action!(:put, "/subscriptions/#{code}/suspend", { headers: { 'Content-Type' => 'application/json' } }) 
+      end
+
+      def activate_subscription(code)
+        peform_action!(:put, "/subscriptions/#{code}/activate", { headers: { 'Content-Type' => 'application/json' } }) 
+      end
+
+      def list_invoices(subscription_code)
+        peform_action!(:get, "/subscriptions/#{subscription_code}/invoices", { headers: { 'Content-Type' => 'application/json' } })
+      end
+
+      def details_invoice(id)
+        peform_action!(:get, "/invoices/#{id}", { headers: { 'Content-Type' => 'application/json' } })        
+      end
+
+      def list_payments(invoice_id)
+        peform_action!(:get, "/invoices/#{invoice_id}/payments", { headers: { 'Content-Type' => 'application/json' } })        
+      end
+
+      def details_payment(id)
+        peform_action!(:get, "/payments/#{id}", { headers: { 'Content-Type' => 'application/json' } })        
+      end
+
       private
 
         def peform_action!(action_name, url, options = {})

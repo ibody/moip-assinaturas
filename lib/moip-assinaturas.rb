@@ -7,8 +7,11 @@ require 'active_support/deprecation'
 module Moip
   module Assinaturas
 
-    autoload :Customer, 'moip-assinaturas/customer'
-    autoload :Client, 'moip-assinaturas/client'
+    autoload :Customer,     'moip-assinaturas/customer'
+    autoload :Subscription, 'moip-assinaturas/subscription'
+    autoload :Invoice,      'moip-assinaturas/invoice'
+    autoload :Payment,      'moip-assinaturas/payment'
+    autoload :Client,       'moip-assinaturas/client'
 
     mattr_accessor :sandbox
     @@sandbox = false

@@ -1,0 +1,36 @@
+{
+    "code": "ass_homolog_72",
+    "amount": "100",
+    "next_invoice_date": {
+        "day": "05",
+        "month": "01",
+        "year": "2013"
+    },
+    "status": "ACTIVE",
+    "plan": {
+        "name": "Plano de homologação",
+        "code": "homolog1"
+    },
+    "customer": {
+        "email": "fulano@homolog.com",
+        "code": "homolog2",
+        "fullname": "Fulano Homologador"
+    },
+    "invoice": { //dados da primeira cobrança (se houver)
+    "id": 134,
+    "moip_id": "14000000",
+    "amount": 110,
+    "status": {
+        "description": "Em análise",
+        "code": 2
+        }
+    },
+    "message": "Assinatura criada com Sucesso",
+    "errors": [],
+    "alerts": [
+        {
+            "code": "MA90",
+            "description": "O nome do portador do cartão deve ter no máximo 45 caracteres. Os demais caracteres foram ignorados"
+        }
+    ]
+}
