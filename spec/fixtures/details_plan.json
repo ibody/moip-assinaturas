@@ -1,0 +1,14 @@
+{
+    "code": "plano01",
+    "name": "Plano Ouro Ilimitado",
+    "description": "Plano com todas as vantagens",
+    "status": "ACTIVE",
+    "amount": 2990,
+    "max_qty": 50,
+    "setup_fee": 1000,
+    "interval": {
+        "length": 1,
+        "unit": "MONTH"
+    },
+    "billing_cycles": 1
+}

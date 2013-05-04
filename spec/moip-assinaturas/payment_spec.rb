@@ -7,14 +7,14 @@ describe Moip::Assinaturas::Payment do
 
     FakeWeb.register_uri(
       :get, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/invoices/13/payments", 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/invoices/13/payments", 
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_payments.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
       :get, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/payments/6", 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/payments/6", 
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_payment.json'),
       status: [200, 'OK']
     )

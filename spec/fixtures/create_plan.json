@@ -1,0 +1,12 @@
+{
+    "code": "plano01",
+    "name": "Plano Especial",
+    "description": "Descrição do Plano Especial",
+    "amount": 990, //em centavos
+    "setup_fee": 500, //em centavos
+    "max_qty": 1,
+    "interval": {
+        "length": 1,
+        "unit": "MONTH"
+        }
+}

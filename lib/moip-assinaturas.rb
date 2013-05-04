@@ -7,6 +7,7 @@ require 'active_support/deprecation'
 module Moip
   module Assinaturas
 
+    autoload :Plan,         'moip-assinaturas/plan'
     autoload :Customer,     'moip-assinaturas/customer'
     autoload :Subscription, 'moip-assinaturas/subscription'
     autoload :Invoice,      'moip-assinaturas/invoice'

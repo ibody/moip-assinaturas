@@ -14,12 +14,24 @@ module Moip::Assinaturas
     if Moip::Assinaturas.sandbox
       base_uri "https://sandbox.moip.com.br/assinaturas/v1"
     else
-      base_uri "https://wwww.moip.com.br/assinaturas/v1"
+      base_uri "https://api.moip.com.br/assinaturas/v1"
     end
 
     basic_auth Moip::Assinaturas.token, Moip::Assinaturas.key
 
     class << self
+
+      def create_plan(plan)
+        peform_action!(:post, "/plans", { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } })
+      end
+
+      def list_plans
+        peform_action!(:get, "/plans", { headers: { 'Content-Type' => 'application/json' } })
+      end
+
+      def details_plan(code)
+        peform_action!(:get, "/plans/#{code}", { headers: { 'Content-Type' => 'application/json' } })
+      end
 
       def create_customer(customer, new_vault)
         peform_action!(:post, "/customers?new_vault=#{new_vault}", { body: customer.to_json, headers: { 'Content-Type' => 'application/json' } })

@@ -36,21 +36,21 @@ describe Moip::Assinaturas::Customer do
 
     FakeWeb.register_uri(
       :post, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/customers?new_vault=true", 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers?new_vault=true", 
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'create_customer.json'),
       status: [201, 'CREATED']
     )
 
     FakeWeb.register_uri(
       :get, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/customers", 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers", 
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_customers.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
       :get, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/customers/18", 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18", 
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_customer.json'),
       status: [200, 'OK']
     )

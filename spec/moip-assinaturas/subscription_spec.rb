@@ -17,35 +17,35 @@ describe Moip::Assinaturas::Subscription do
 
     FakeWeb.register_uri(
       :post, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/subscriptions?new_customer=false", 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false", 
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'create_subscription.json'),
       status: [201, 'CREATED']
     )
 
     FakeWeb.register_uri(
       :get, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/subscriptions", 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions", 
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_subscriptions.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
       :get, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/subscriptions/assinatura1", 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1", 
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_subscription.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
       :put, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/subscriptions/assinatura1/activate",
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/activate",
       body: 'CREATED', 
       status: [201, 'OK']
     )
 
     FakeWeb.register_uri(
       :put, 
-      "https://TOKEN:KEY@wwww.moip.com.br/assinaturas/v1/subscriptions/assinatura1/suspend", 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/suspend", 
       body: 'CREATED',
       status: [201, 'OK']
     )
