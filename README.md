@@ -55,7 +55,7 @@ plan = {
   billing_cycles: 12
 }
 
-request = Moip::Assinaturas::Plan.create(@plan)
+request = Moip::Assinaturas::Plan.create(plan)
 
 if request[:success]
   # O plano foi criado com sucesso
