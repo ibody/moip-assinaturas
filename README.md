@@ -139,15 +139,15 @@ Ativar uma assinatura:
 Moip::Assinaturas::Subscription.activate(subscription_code)
 ```
 
-## Cobranças
+## Faturas
 
-Listar cobranças de uma assinatura:
+Listar faturas de uma assinatura:
 
 ```ruby
 Moip::Assinaturas::Invoice.list(subscription_code)
 ```
 
-Obter detalhes da cobrança
+Obter detalhes da fatura:
 
 ```ruby
 Moip::Assinaturas::Invoice.details(invoice_id)
@@ -161,7 +161,7 @@ Listar pagamentos de uma cobrança:
 Moip::Assinaturas::Payment.list(invoice_id)
 ```
 
-Obter detalhes de um pagamento
+Obter detalhes de um pagamento:
 
 ```ruby
 Moip::Assinaturas::Invoice.details(payment_id)
