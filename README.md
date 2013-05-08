@@ -109,7 +109,7 @@ Moip::Assinaturas::Customer.details(customer_code)
 
 ## Assinaturas
 
-Criar uma nova Assinatura:
+Criar uma nova assinatura:
 
 ```ruby
 Moip::Assinaturas::Subscription.create(subscription_attributes, new_customer = false)
