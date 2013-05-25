@@ -5,10 +5,10 @@ module Moip::Assinaturas
 
       def list(invoice_id)
         response = Moip::Assinaturas::Client.list_payments(invoice_id)
+        hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
         when 200
-          hash = JSON.load(response.body).with_indifferent_access
           return {
             success:  true,
             payments: hash[:payments]
@@ -20,10 +20,10 @@ module Moip::Assinaturas
 
       def details(id)
         response = Moip::Assinaturas::Client.details_payment(id)
+        hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
         when 200
-          hash = JSON.load(response.body).with_indifferent_access
           return {
             success:  true,
             payment:  hash

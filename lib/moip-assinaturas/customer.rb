@@ -5,10 +5,10 @@ module Moip::Assinaturas
 
       def create(customer, new_valt = true)
         response = Moip::Assinaturas::Client.create_customer(customer, new_valt)
+        hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
         when 201
-          hash = JSON.load(response.body).with_indifferent_access
           return {
             success: true,
             message: hash['message']
@@ -26,10 +26,10 @@ module Moip::Assinaturas
 
       def list
         response = Moip::Assinaturas::Client.list_customers
+        hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
         when 200
-          hash = JSON.load(response.body).with_indifferent_access
           return {
             success:    true,
             customers:  hash['customers']
@@ -41,10 +41,10 @@ module Moip::Assinaturas
 
       def details(code)
         response = Moip::Assinaturas::Client.details_customer(code)
+        hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
         when 200
-          hash = JSON.load(response.body).with_indifferent_access
           return {
             success:   true,
             customer:  hash
