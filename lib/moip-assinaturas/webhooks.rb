@@ -1,12 +1,13 @@
 module Moip::Assinaturas
   class Webhooks
-    attr_accessor :model, :event, :date, :env, :resource
+    attr_accessor :model, :event, :date, :env, :resource, :events
 
     class << self
       def build(json)
         object = new
         object.model    = get_model(json['event'])
         object.event    = get_event(json['event'])
+        object.events   = {}
         object.date     = json['date']
         object.env      = json['env']
         object.resource = json['resource']
@@ -22,6 +23,22 @@ module Moip::Assinaturas
       def get_event(event)
         event.split(".")[1]
       end
+    end
+
+    def on(model, event, &block)
+      unless events[model]
+        events[model] = {}
+      end
+
+      unless events[model][event]
+        events[model][event] = []
+      end
+
+      events[model][event] << block
+    end
+
+    def run
+      events[model][event].each { |action| action.call } if (events[model] && events[model][event])
     end
   end
 end
