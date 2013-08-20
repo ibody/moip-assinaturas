@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'spec_helper'
+require 'json'
 
 describe Moip::Assinaturas::Webhooks do
 
@@ -13,6 +14,33 @@ describe Moip::Assinaturas::Webhooks do
         'test' => 'test generic resource'
       }
     }
+  end
+
+  describe '.listen(request, &block)' do
+    let!(:request) { {} }
+    let!(:block) { lambda { |hook| } }
+    let!(:hook) { Moip::Assinaturas::Webhooks.build(json) }
+
+    before(:each) do
+      request.stub_chain(:body) { {} }
+      JSON.stub(:load).with({}) { json }
+      Moip::Assinaturas::Webhooks.stub(:build) { hook }
+    end
+
+    it 'should call build' do
+      Moip::Assinaturas::Webhooks.should_receive(:build).with(json)
+      Moip::Assinaturas::Webhooks.listen(request, &block)
+    end
+
+    it 'should yield block' do
+      Moip::Assinaturas::Webhooks.should_receive(:listen).and_yield(block)
+      Moip::Assinaturas::Webhooks.listen(request, &block)
+    end
+
+    it 'should call run' do
+      hook.should_receive(:run).once
+      Moip::Assinaturas::Webhooks.listen(request, &block)
+    end
   end
 
   describe '.build(json)' do

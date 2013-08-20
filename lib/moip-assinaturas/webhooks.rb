@@ -15,6 +15,14 @@ module Moip::Assinaturas
         object
       end
 
+      def listen(request, &block)
+        json = JSON.load(request.body).with_indifferent_access
+
+        hook = build(json)
+        yield hook
+        hook.run
+      end
+
       private
       def get_model(event)
         event.split(".")[0]
