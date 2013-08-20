@@ -2,7 +2,7 @@
 
 Essa gem permite utilizar a API do Moip Assinaturas.
 
-O Moip Assinaturas permite que você faça cobranças de forma automática, no valor e intervalo que escolher por meio da criação de planos. 
+O Moip Assinaturas permite que você faça cobranças de forma automática, no valor e intervalo que escolher por meio da criação de planos.
 
 [http://site.moip.com.br/assinaturas/](http://site.moip.com.br/assinaturas)
 
@@ -166,6 +166,38 @@ Obter detalhes de um pagamento:
 ```ruby
 Moip::Assinaturas::Invoice.details(payment_id)
 ```
+
+## Webhooks
+
+A classe Webhooks foi desenvolvida para cobrir qualquer caso de envio do Moip. Um exemplo de como ela é utilizada.
+
+```ruby
+# como eu costumo usar o rails então
+class WebhooksController < ApplicationController
+  def webhooks
+    Moip::Webhooks.listen(request) do |hook|
+
+      # quando o moip envia dado sobre a criação de um plano
+      hook.on(:plan, :created) do
+        # Fazer algo
+      end
+
+      hook.on(:payment, :status_updated) do
+        # quando o pagamento do meu cliente está confirmado
+        if hook.resource['status']['code'] == 4
+          # Fazer algo
+        end
+      end
+
+      hook.on(:subscription, :created) do
+        # Fazer algo
+      end
+    end
+    render :text => "done ok"
+  end
+end
+```
+A ideia da arquitetura da classe Webhook foi baseada na gem - [https://github.com/xdougx/api-moip-assinaturas](https://github.com/xdougx/api-moip-assinaturas) - substituindo os objetos daquela gem por hashs
 
 ## Contribuindo
 
