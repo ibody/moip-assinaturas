@@ -197,7 +197,7 @@ class WebhooksController < ApplicationController
   end
 end
 ```
-A ideia da arquitetura da classe Webhook foi baseada na gem - [https://github.com/xdougx/api-moip-assinaturas](https://github.com/xdougx/api-moip-assinaturas) - substituindo os objetos daquela gem por hashs
+A ideia da arquitetura da classe Webhooks foi baseada na gem - [https://github.com/xdougx/api-moip-assinaturas](https://github.com/xdougx/api-moip-assinaturas) - substituindo os objetos daquela gem por hashs
 
 ## Contribuindo
 
