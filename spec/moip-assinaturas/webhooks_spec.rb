@@ -4,8 +4,7 @@ require 'json'
 
 describe Moip::Assinaturas::Webhooks do
 
-  let!(:json) do
-
+  let!(:params) do
     {
       'event' => 'model.event',
       'date' => '28/12/2012 15:38:46',
@@ -16,35 +15,32 @@ describe Moip::Assinaturas::Webhooks do
     }
   end
 
-  describe '.listen(request, &block)' do
-    let!(:request) { {} }
+  describe '.listen(params, &block)' do
     let!(:block) { lambda { |hook| } }
-    let!(:hook) { Moip::Assinaturas::Webhooks.build(json) }
+    let!(:hook) { Moip::Assinaturas::Webhooks.build(params) }
 
     before(:each) do
-      request.stub_chain(:body) { {} }
-      JSON.stub(:load).with({}) { json }
       Moip::Assinaturas::Webhooks.stub(:build) { hook }
     end
 
     it 'should call build' do
-      Moip::Assinaturas::Webhooks.should_receive(:build).with(json)
-      Moip::Assinaturas::Webhooks.listen(request, &block)
+      Moip::Assinaturas::Webhooks.should_receive(:build).with(params)
+      Moip::Assinaturas::Webhooks.listen(params, &block)
     end
 
     it 'should yield block' do
       Moip::Assinaturas::Webhooks.should_receive(:listen).and_yield(block)
-      Moip::Assinaturas::Webhooks.listen(request, &block)
+      Moip::Assinaturas::Webhooks.listen(params, &block)
     end
 
     it 'should call run' do
       hook.should_receive(:run).once
-      Moip::Assinaturas::Webhooks.listen(request, &block)
+      Moip::Assinaturas::Webhooks.listen(params, &block)
     end
   end
 
-  describe '.build(json)' do
-    subject(:hook) { Moip::Assinaturas::Webhooks.build(json) }
+  describe '.build(params)' do
+    subject(:hook) { Moip::Assinaturas::Webhooks.build(params) }
 
     its(:model) { should eq('model') }
     its(:event) { should eq('event') }
@@ -61,7 +57,7 @@ describe Moip::Assinaturas::Webhooks do
     let!(:event) { 'event' }
     let!(:block) { lambda { } }
 
-    subject(:hook) { Moip::Assinaturas::Webhooks.build(json) }
+    subject(:hook) { Moip::Assinaturas::Webhooks.build(params) }
 
     it "should adding this block to events" do
       hook.on(model, event, &block)
@@ -74,7 +70,7 @@ describe Moip::Assinaturas::Webhooks do
     let!(:event) { 'event' }
     let!(:block) { lambda { } }
 
-    subject(:hook) { Moip::Assinaturas::Webhooks.build(json) }
+    subject(:hook) { Moip::Assinaturas::Webhooks.build(params) }
 
     it 'should call block once' do
       hook.on(model, event, &block)

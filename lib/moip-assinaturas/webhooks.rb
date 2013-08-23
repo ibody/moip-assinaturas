@@ -15,10 +15,8 @@ module Moip::Assinaturas
         object
       end
 
-      def listen(request, &block)
-        json = JSON.load(request.body).with_indifferent_access
-
-        hook = build(json)
+      def listen(params, &block)
+        hook = build(params)
         yield hook
         hook.run
       end
