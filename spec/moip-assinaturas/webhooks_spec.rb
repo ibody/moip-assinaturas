@@ -42,8 +42,8 @@ describe Moip::Assinaturas::Webhooks do
   describe '.build(params)' do
     subject(:hook) { Moip::Assinaturas::Webhooks.build(params) }
 
-    its(:model) { should eq('model') }
-    its(:event) { should eq('event') }
+    its(:model) { should eq(:model) }
+    its(:event) { should eq(:event) }
     its(:events) { should eq({}) }
 
     its(:date) { should eq('28/12/2012 15:38:46') }
@@ -66,8 +66,8 @@ describe Moip::Assinaturas::Webhooks do
   end
 
   describe '#run' do
-    let!(:model) { 'model' }
-    let!(:event) { 'event' }
+    let!(:model) { :model }
+    let!(:event) { :event }
     let!(:block) { lambda { } }
 
     subject(:hook) { Moip::Assinaturas::Webhooks.build(params) }

@@ -23,11 +23,11 @@ module Moip::Assinaturas
 
       private
       def get_model(event)
-        event.split(".")[0]
+        event.split(".")[0].to_sym
       end
 
       def get_event(event)
-        event.split(".")[1]
+        event.split(".")[1].to_sym
       end
     end
 
