@@ -175,7 +175,7 @@ A classe Webhooks foi desenvolvida para cobrir qualquer caso de envio do Moip. U
 # como eu costumo usar o rails então
 class WebhooksController < ApplicationController
   def webhooks
-    Moip::Webhooks.listen(request) do |hook|
+    Moip::Assinaturas::Webhooks.listen(request) do |hook|
 
       # quando o moip envia dado sobre a criação de um plano
       hook.on(:plan, :created) do
