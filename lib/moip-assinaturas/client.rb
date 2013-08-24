@@ -38,7 +38,8 @@ module Moip::Assinaturas
       end
 
       def update_customer(code, customer)
-        peform_action!(:put, "/customers/#{code}", { body: customer.to_json, headers: { 'Content-Type' => 'application/json' } })
+        verify_auth
+        send(:put, "/customers/#{code}", { body: customer.to_json, headers: { 'Content-Type' => 'application/json' } })
       end
 
       def update_billing_info(code, billing_info)
@@ -90,17 +91,19 @@ module Moip::Assinaturas
       end
 
       private
-
-        def peform_action!(action_name, url, options = {})
+        def verify_auth
           if (Moip::Assinaturas.token.blank? or Moip::Assinaturas.key.blank?)
             raise(MissingTokenError, "Informe o token e a key para realizar a autenticação no webservice")
           end
+        end
+
+        def peform_action!(action_name, url, options = {})
+          verify_auth
 
           response = self.send(action_name, url, options)
           raise(WebServerResponseError, "Ocorreu um erro ao chamar o webservice") if response.nil?
           response
         end
-
     end
   end
 

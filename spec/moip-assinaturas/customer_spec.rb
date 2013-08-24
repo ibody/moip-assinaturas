@@ -58,7 +58,7 @@ describe Moip::Assinaturas::Customer do
     FakeWeb.register_uri(
       :put,
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18",
-      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'update_customer.json'),
+      body:   nil,
       status: [200, 'OK']
     )
 
@@ -90,8 +90,8 @@ describe Moip::Assinaturas::Customer do
   it "should update the customer" do
     @customer[:cpf] = '33333333333'
     @customer[:billing_info] = nil
-    request = Moip::Assinaturas::Customer.update("18", @customer)
-    request[:success].should             be_true
+    Moip::Assinaturas::Client.should_receive(:update_customer).once
+    Moip::Assinaturas::Customer.update("18", @customer)
   end
 
 
