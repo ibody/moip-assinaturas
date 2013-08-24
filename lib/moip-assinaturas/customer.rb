@@ -54,6 +54,47 @@ module Moip::Assinaturas
         end
       end
 
+      def update(code, customer)
+        response = Moip::Assinaturas::Client.update_customer(code, customer)
+        hash     = JSON.load(response.body).with_indifferent_access
+
+        case response.code
+        when 200
+          return {
+            success: true,
+            message: hash['message']
+          }
+        when 400
+          return {
+            success: false,
+            message: hash['message'],
+            errors:  hash['errors']
+          }
+        else
+          raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
+        end
+      end
+
+      def update_billing_info(code, billing_info)
+        response = Moip::Assinaturas::Client.update_billing_info(code, billing_info)
+        hash     = JSON.load(response.body).with_indifferent_access
+
+        case response.code
+        when 200
+          return {
+            success: true,
+            message: hash['message']
+          }
+        when 400
+          return {
+            success: false,
+            message: hash['message'],
+            errors:  hash['errors']
+          }
+        else
+          raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
+        end
+      end
     end
   end
 end

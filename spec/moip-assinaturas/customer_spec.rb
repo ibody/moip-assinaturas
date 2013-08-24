@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Moip::Assinaturas::Customer do
-  
+
   before(:all) do
     @customer = {
       code:             "18",
@@ -35,23 +35,37 @@ describe Moip::Assinaturas::Customer do
     }
 
     FakeWeb.register_uri(
-      :post, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers?new_vault=true", 
+      :post,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers?new_vault=true",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'create_customer.json'),
       status: [201, 'CREATED']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers", 
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_customers.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18", 
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_customer.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'update_customer.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18/billing_infos",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'update_customer_billing_infos.json'),
       status: [200, 'OK']
     )
   end
@@ -71,6 +85,20 @@ describe Moip::Assinaturas::Customer do
     request = Moip::Assinaturas::Customer.details('18')
     request[:success].should             be_true
     request[:customer][:code].should     == '18'
+  end
+
+  it "should update the customer" do
+    @customer[:cpf] = '33333333333'
+    @customer[:billing_info] = nil
+    request = Moip::Assinaturas::Customer.update("18", @customer)
+    request[:success].should             be_true
+  end
+
+
+  it "should update the billing info" do
+    billing_info = @customer[:billing_info]
+    request = Moip::Assinaturas::Customer.update_billing_info("18", billing_info)
+    request[:success].should be_true
   end
 
 end
