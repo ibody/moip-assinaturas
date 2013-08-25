@@ -53,7 +53,7 @@ module Moip::Assinaturas
           }
         else
           raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
-        end      
+        end
       end
 
       def suspend(code)
@@ -78,6 +78,9 @@ module Moip::Assinaturas
         end
       end
 
+      def update(code, subscription)
+        Moip::Assinaturas::Client.update_subscription(code, subscription)
+      end
     end
 
   end

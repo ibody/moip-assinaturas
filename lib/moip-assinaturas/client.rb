@@ -74,6 +74,11 @@ module Moip::Assinaturas
         peform_action!(:put, "/subscriptions/#{code}/activate", { headers: { 'Content-Type' => 'application/json' } })
       end
 
+      def update_subscription(code, subscription)
+        verify_auth
+        send(:put, "/subscriptions/#{code}", { body: subscription.to_json, headers: { 'Content-Type' => 'application/json' } })
+      end
+
       def list_invoices(subscription_code)
         peform_action!(:get, "/subscriptions/#{subscription_code}/invoices", { headers: { 'Content-Type' => 'application/json' } })
       end

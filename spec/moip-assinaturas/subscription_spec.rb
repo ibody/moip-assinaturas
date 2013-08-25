@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Moip::Assinaturas::Subscription do
-  
+
   before(:all) do
     @subscription = {
       code: "assinatura1",
@@ -16,38 +16,44 @@ describe Moip::Assinaturas::Subscription do
     }
 
     FakeWeb.register_uri(
-      :post, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false", 
+      :post,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'create_subscription.json'),
       status: [201, 'CREATED']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions", 
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_subscriptions.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1", 
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_subscription.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :put, 
+      :put,
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/activate",
-      body: 'CREATED', 
+      body: 'CREATED',
       status: [201, 'OK']
     )
 
     FakeWeb.register_uri(
-      :put, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/suspend", 
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/suspend",
       body: 'CREATED',
       status: [201, 'OK']
+    )
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1",
+      body:   nil,
+      status: [200, 'OK']
     )
   end
 
@@ -79,5 +85,15 @@ describe Moip::Assinaturas::Subscription do
     request[:success].should be_true
   end
 
-
+  it "should update the subscription" do
+    @subscription[:code] = nil
+    @subscription[:customer] = nil
+    @subscription[:next_invoice_date] = {
+      day: "05",
+      month: '01',
+      year: '2013'
+    }
+    Moip::Assinaturas::Client.should_receive(:update_subscription).once
+    Moip::Assinaturas::Subscription.update("assinatura1", @subscription)
+  end
 end

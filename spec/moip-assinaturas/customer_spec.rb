@@ -88,7 +88,6 @@ describe Moip::Assinaturas::Customer do
   end
 
   it "should update the customer" do
-    @customer[:cpf] = '33333333333'
     @customer[:billing_info] = nil
     Moip::Assinaturas::Client.should_receive(:update_customer).once
     Moip::Assinaturas::Customer.update("18", @customer)
