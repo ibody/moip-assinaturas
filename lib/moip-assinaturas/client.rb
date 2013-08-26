@@ -45,6 +45,10 @@ module Moip::Assinaturas
         peform_action!(:get, "/customers/#{code}", { headers: { 'Content-Type' => 'application/json' } })
       end
 
+      def update_credit_card(customer_code, credit_card)
+        peform_action!(:put, "/customers/#{customer_code}/billing_infos", { body: credit_card.to_json, headers: { 'Content-Type' => 'application/json' } })
+      end
+
       def create_subscription(subscription, new_customer)
         peform_action!(:post, "/subscriptions?new_customer=#{new_customer}", { body: subscription.to_json, headers: { 'Content-Type' => 'application/json' } })
       end

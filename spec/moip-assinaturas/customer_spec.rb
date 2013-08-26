@@ -54,6 +54,13 @@ describe Moip::Assinaturas::Customer do
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_customer.json'),
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :put, 
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18/billing_infos",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'update_credit_card.json'),
+      status: [200, 'OK']
+    )
   end
 
   it "should create a new customer" do
@@ -71,6 +78,19 @@ describe Moip::Assinaturas::Customer do
     request = Moip::Assinaturas::Customer.details('18')
     request[:success].should             be_true
     request[:customer][:code].should     == '18'
+  end
+
+  it "should update the customer card info" do
+    request = Moip::Assinaturas::Customer.update_credit_card(18, {
+      credit_card: {
+        holder_name:      'Novo nome',
+        number:           '5555666677778884',
+        expiration_month: '04',
+        expiration_year:  '15'
+      }
+    })
+
+    request[:success].should be_true
   end
 
 end
