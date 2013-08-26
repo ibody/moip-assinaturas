@@ -12,6 +12,7 @@ module Moip
     autoload :Subscription, 'moip-assinaturas/subscription'
     autoload :Invoice,      'moip-assinaturas/invoice'
     autoload :Payment,      'moip-assinaturas/payment'
+    autoload :Webhooks,     'moip-assinaturas/webhooks'
     autoload :Client,       'moip-assinaturas/client'
 
     mattr_accessor :sandbox
