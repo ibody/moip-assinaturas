@@ -15,7 +15,11 @@ describe Moip::Assinaturas::Plan do
         length: 1,
         unit: "MONTH"
       },
-      billing_cycles: 12
+      billing_cycles: 12,
+      trial: {
+        enabled: true,
+        days: 10
+      }
     }
 
     FakeWeb.register_uri(
@@ -56,6 +60,14 @@ describe Moip::Assinaturas::Plan do
     request = Moip::Assinaturas::Plan.details('plano01')
     request[:success].should      be_true
     request[:plan][:code].should  == 'plano01'
+  end
+
+  context "Trial" do
+    it "should get details from a plan with trial" do
+      request = Moip::Assinaturas::Plan.details('plano01')
+      expect(request[:plan][:trial][:days]).to eq 10
+      expect(request[:plan][:trial][:enabled]).to be_true
+    end
   end
 
 end

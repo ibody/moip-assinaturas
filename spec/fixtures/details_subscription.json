@@ -28,5 +28,17 @@
         "code": "cliente1",
         "fullname": "Nome e Sobrenome",
         "email": "assinaturas@moip.com.br"
+    },
+    "trial": {
+        "start": {
+            "month": 9,
+            "year": 2013,
+            "day": 27
+        },
+        "end": {
+            "month": 10,
+            "year": 2013,
+            "day": 17
+        }
     }
 }

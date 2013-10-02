@@ -52,7 +52,11 @@ plan = {
     length: 1,
     unit: "MONTH"
   },
-  billing_cycles: 12
+  billing_cycles: 12,
+  trial: {
+    enabled: true,
+    days: 10
+  }
 }
 
 request = Moip::Assinaturas::Plan.create(plan)
