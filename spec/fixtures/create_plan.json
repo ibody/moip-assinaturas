@@ -8,5 +8,9 @@
     "interval": {
         "length": 1,
         "unit": "MONTH"
-        }
+    },
+    "trial": {
+        "enabled": true,
+        "days": 10
+    }
 }

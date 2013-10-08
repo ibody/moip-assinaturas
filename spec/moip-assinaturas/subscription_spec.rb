@@ -1,6 +1,13 @@
 # coding: utf-8
 require 'spec_helper'
 
+RSpec::Matchers.define :have_valid_trial_dates do
+  match do |actual|
+    (actual[:start][:day] == 27 && actual[:start][:month] == 9 && actual[:start][:year] == 2013) && 
+    (actual[:end][:day] == 17 && actual[:end][:month] == 10 && actual[:end][:year] == 2013)
+  end
+end
+
 describe Moip::Assinaturas::Subscription do
   
   before(:all) do
@@ -79,5 +86,11 @@ describe Moip::Assinaturas::Subscription do
     request[:success].should be_true
   end
 
+  context "Trial" do
+    it "should get the subscription details with trial" do
+      request = Moip::Assinaturas::Subscription.details('assinatura1')
+      expect(request[:subscription][:trial]).to have_valid_trial_dates
+    end
+  end
 
 end
