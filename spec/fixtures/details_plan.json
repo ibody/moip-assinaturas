@@ -10,5 +10,9 @@
         "length": 1,
         "unit": "MONTH"
     },
-    "billing_cycles": 1
+    "billing_cycles": 1,
+    "trial": {
+        "enabled": true,
+        "days": 10
+    }
 }
