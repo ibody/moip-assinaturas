@@ -52,16 +52,23 @@ describe Moip::Assinaturas::Webhooks do
     its(:resource) { should eq({ 'test' => 'test generic resource' }) }
   end
 
-  describe '#on(model, event, &block)' do
+  describe '#on(model, on_events, &block)' do
     let!(:model) { 'model' }
-    let!(:event) { 'event' }
+    let!(:event_1) { 'event_1' }
+    let!(:event_2) { 'event_2' }
     let!(:block) { lambda { } }
 
     subject(:hook) { Moip::Assinaturas::Webhooks.build(params) }
 
     it "should adding this block to events" do
-      hook.on(model, event, &block)
-      hook.events[model][event].should eq([block])
+      hook.on(model, event_1, &block)
+      hook.events[model][event_1].should eq([block])
+    end
+
+    it "should receive an array of events and add this block to events" do
+      hook.on(model, [event_1, event_2], &block)
+      hook.events[model][event_1].should eq([block])
+      hook.events[model][event_2].should eq([block])
     end
   end
 

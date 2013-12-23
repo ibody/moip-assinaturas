@@ -31,16 +31,19 @@ module Moip::Assinaturas
       end
     end
 
-    def on(model, event, &block)
+    def on(model, on_events, &block)
+
       unless events[model]
         events[model] = {}
       end
 
-      unless events[model][event]
-        events[model][event] = []
-      end
+      (on_events.is_a?(Array) ? on_events : [on_events]).each do |event|
+        unless events[model][event]
+          events[model][event] = []
+        end
 
-      events[model][event] << block
+        events[model][event] << block
+      end
     end
 
     def run
