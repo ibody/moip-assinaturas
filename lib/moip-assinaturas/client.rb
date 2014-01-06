@@ -33,6 +33,10 @@ module Moip::Assinaturas
         peform_action!(:get, "/plans/#{code}", { headers: { 'Content-Type' => 'application/json' } })
       end
 
+      def update_plan(plan)
+        peform_action!(:put, "/plans/#{plan[:code]}", { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } })
+      end
+
       def create_customer(customer, new_vault)
         peform_action!(:post, "/customers?new_vault=#{new_vault}", { body: customer.to_json, headers: { 'Content-Type' => 'application/json' } })
       end
