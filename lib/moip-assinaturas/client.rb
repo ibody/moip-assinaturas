@@ -97,7 +97,12 @@ module Moip::Assinaturas
           end
 
           response = self.send(action_name, url, options)
-          raise(WebServerResponseError, "Ocorreu um erro ao chamar o webservice") if response.nil?
+          
+          # when updating a plan the response body is empty and then
+          # the response.nil? returns true despite that the response code was 200 OK
+          # that is why I changed the response.nil? by the current
+          raise(WebServerResponseError, "Ocorreu um erro ao chamar o webservice") if response.class == NilClass
+
           response
         end
 
