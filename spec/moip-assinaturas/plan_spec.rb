@@ -22,6 +22,9 @@ describe Moip::Assinaturas::Plan do
       }
     }
 
+    @plan_update = @plan.clone
+    @plan_update[:name] = 'Plano Especial 2'
+
     FakeWeb.register_uri(
       :post, 
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/plans", 
@@ -46,7 +49,7 @@ describe Moip::Assinaturas::Plan do
     FakeWeb.register_uri(
       :put, 
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/plans/plano01", 
-      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'update_plan.json'),
+      body:   "",
       status: [200, 'OK']
     )
   end
@@ -70,10 +73,8 @@ describe Moip::Assinaturas::Plan do
   end
 
   it "should update an existing plan" do
-    request = Moip::Assinaturas::Plan.update({ code: 'plano01', name: 'Plano Especial 2' })
+    request = Moip::Assinaturas::Plan.update(@plan_update)
     request[:success].should      be_true
-    request[:plan][:code].should  == 'plano01'
-    request[:plan][:name].should  == 'Plano Especial 2'
   end
 
   context "Trial" do
