@@ -34,7 +34,7 @@ module Moip::Assinaturas
       end
 
       def update_plan(plan)
-        peform_action!(:put, "/plans/#{plan[:code]}", { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/plans/#{plan[:code]}", { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } }, true)
       end
 
       def create_customer(customer, new_vault)
@@ -91,7 +91,7 @@ module Moip::Assinaturas
 
       private
 
-        def peform_action!(action_name, url, options = {})
+        def peform_action!(action_name, url, options = {}, accepts_blank_body = false)
           if (Moip::Assinaturas.token.blank? or Moip::Assinaturas.key.blank?)
             raise(MissingTokenError, "Informe o token e a key para realizar a autenticação no webservice") 
           end
@@ -101,7 +101,9 @@ module Moip::Assinaturas
           # when updating a plan the response body is empty and then
           # the response.nil? returns true despite that the response code was 200 OK
           # that is why I changed the response.nil? by the current
-          raise(WebServerResponseError, "Ocorreu um erro ao chamar o webservice") if response.class == NilClass
+          if response.nil? && !accepts_blank_body
+            raise(WebServerResponseError, "Ocorreu um erro ao chamar o webservice") 
+          end
 
           response
         end
