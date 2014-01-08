@@ -26,7 +26,7 @@ module Moip::Assinaturas
         peform_action!(:post, "/plans", opts)
       end
 
-      def list_plans(opts)
+      def list_plans(opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
         peform_action!(:get, "/plans", opts)
       end
@@ -41,20 +41,24 @@ module Moip::Assinaturas
         peform_action!(:put, "/plans/#{plan[:code]}", opts, true)
       end
 
-      def create_customer(customer, new_vault)
-        peform_action!(:post, "/customers?new_vault=#{new_vault}", { body: customer.to_json, headers: { 'Content-Type' => 'application/json' } })
+      def create_customer(customer, new_vault, opts={})
+        prepare_options(opts, { body: customer.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:post, "/customers?new_vault=#{new_vault}", opts)
       end
 
-      def list_customers
-        peform_action!(:get, "/customers", { headers: { 'Content-Type' => 'application/json' } })
+      def list_customers(opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/customers", opts)
       end
 
-      def details_customer(code)
-        peform_action!(:get, "/customers/#{code}", { headers: { 'Content-Type' => 'application/json' } })
+      def details_customer(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/customers/#{code}", opts)
       end
 
-      def update_credit_card(customer_code, credit_card)
-        peform_action!(:put, "/customers/#{customer_code}/billing_infos", { body: credit_card.to_json, headers: { 'Content-Type' => 'application/json' } })
+      def update_credit_card(customer_code, credit_card, opts={})
+        prepare_options(opts, { body: credit_card.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/customers/#{customer_code}/billing_infos", opts)
       end
 
       def create_subscription(subscription, new_customer)

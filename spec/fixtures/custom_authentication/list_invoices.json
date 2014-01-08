@@ -1,0 +1,23 @@
+{
+    "invoices": [
+        {
+            "id": 13,
+            "amount": 101,
+            "subscription_code": "assinatura7",
+            
+            "occurrence": 1,
+            "status": {
+                "code": 2,
+                "description": "Aguardando confirmação"
+            },
+            "creation_date": {
+                "day": 28,
+                "month": 12,
+                "year": 2012,
+                "hour": 15,
+                "minute": 38,
+                "second": 41
+            }
+        }
+    ]
+}

@@ -14,5 +14,11 @@ RSpec.configure do |config|
       config.token = "TOKEN"
       config.key   = "KEY"
     end
+
+    $custom_moip_auth = {
+      token: "TOKEN2",
+      key: "KEY2",
+      sandbox: false
+    }
   end
 end

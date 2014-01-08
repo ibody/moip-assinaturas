@@ -22,12 +22,6 @@ describe Moip::Assinaturas::Plan do
       }
     }
 
-    @moip_login = {
-      token: "TOKEN2",
-      key: "KEY2",
-      sandbox: false
-    }
-
     @plan2 = {
       code: "plano02",
       name: "Plano Especial 2",
@@ -136,25 +130,25 @@ describe Moip::Assinaturas::Plan do
 
   context "Custom Authentication" do
     it "should create a new plan in other moip account" do
-      request = Moip::Assinaturas::Plan.create(@plan2, moip_auth: @moip_login)
+      request = Moip::Assinaturas::Plan.create(@plan2, moip_auth: $custom_moip_auth)
       request[:success].should      be_true
       request[:plan][:code].should  == 'plano02'
     end
 
     it "should list all plans from other moip account" do
-      request = Moip::Assinaturas::Plan.list(moip_auth: @moip_login)
+      request = Moip::Assinaturas::Plan.list(moip_auth: $custom_moip_auth)
       request[:success].should    be_true
       request[:plans].size.should == 1
     end
 
     it "should get details from a plan of other moip account" do
-      request = Moip::Assinaturas::Plan.details('plano02', moip_auth: @moip_login)
+      request = Moip::Assinaturas::Plan.details('plano02', moip_auth: $custom_moip_auth)
       request[:success].should      be_true
       request[:plan][:code].should  == 'plano02'
     end
 
     it "should update an existing plan of other moip account" do
-      request = Moip::Assinaturas::Plan.update(@plan2, moip_auth: @moip_login)
+      request = Moip::Assinaturas::Plan.update(@plan2, moip_auth: $custom_moip_auth)
       request[:success].should      be_true
     end
   end
