@@ -96,12 +96,14 @@ module Moip::Assinaturas
         peform_action!(:get, "/invoices/#{id}", opts)
       end
 
-      def list_payments(invoice_id)
-        peform_action!(:get, "/invoices/#{invoice_id}/payments", { headers: { 'Content-Type' => 'application/json' } })        
+      def list_payments(invoice_id, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/invoices/#{invoice_id}/payments", opts)        
       end
 
-      def details_payment(id)
-        peform_action!(:get, "/payments/#{id}", { headers: { 'Content-Type' => 'application/json' } })        
+      def details_payment(id, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })   
+        peform_action!(:get, "/payments/#{id}", opts)        
       end
 
       private
