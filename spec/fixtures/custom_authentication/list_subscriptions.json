@@ -1,7 +1,7 @@
 {
     "subscriptions": [
         {
-            "code": "assinatura1",
+            "code": "assinatura2",
             "amount": "100",
             "status": "ACTIVE",
             "creation_date": {

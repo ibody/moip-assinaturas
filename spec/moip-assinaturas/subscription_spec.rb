@@ -22,6 +22,17 @@ describe Moip::Assinaturas::Subscription do
       }
     }
 
+    @subscription2 = {
+      code: "assinatura2",
+      amount: "100",
+      plan: {
+        code: "plano2"
+      },
+      customer: {
+        code: "19"
+      }
+    }
+
     FakeWeb.register_uri(
       :post, 
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false", 
@@ -53,6 +64,41 @@ describe Moip::Assinaturas::Subscription do
     FakeWeb.register_uri(
       :put, 
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/suspend", 
+      body: 'CREATED',
+      status: [201, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :post, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'create_subscription.json'),
+      status: [201, 'CREATED']
+    )
+
+    FakeWeb.register_uri(
+      :get, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'list_subscriptions.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :get, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'details_subscription.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2/activate",
+      body: 'CREATED', 
+      status: [201, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2/suspend", 
       body: 'CREATED',
       status: [201, 'OK']
     )
@@ -90,6 +136,36 @@ describe Moip::Assinaturas::Subscription do
     it "should get the subscription details with trial" do
       request = Moip::Assinaturas::Subscription.details('assinatura1')
       expect(request[:subscription][:trial]).to have_valid_trial_dates
+    end
+  end
+
+  context "Custom Authentication" do
+    it "should create a new subscription from a custom moip account" do
+      request = Moip::Assinaturas::Subscription.create(@subscription, false, moip_auth: $custom_moip_auth)
+      request[:success].should be_true
+      request[:subscription][:code].should == 'ass_homolog_72'
+    end
+
+    it "should list all subscriptions from a custom moip account" do
+      request = Moip::Assinaturas::Subscription.list(moip_auth: $custom_moip_auth)
+      request[:success].should             be_true
+      request[:subscriptions].size.should  == 1
+    end
+
+    it "should get the subscription details from a custom moip account" do
+      request = Moip::Assinaturas::Subscription.details('assinatura2', moip_auth: $custom_moip_auth)
+      request[:success].should                be_true
+      request[:subscription][:code].should == 'assinatura2'
+    end
+
+    it "should suspend a subscription from a custom moip account" do
+      request = Moip::Assinaturas::Subscription.suspend('assinatura2', moip_auth: $custom_moip_auth)
+      request[:success].should be_true
+    end
+
+    it "should reactive a subscription from a custom moip account" do
+      request = Moip::Assinaturas::Subscription.activate('assinatura2', moip_auth: $custom_moip_auth)
+      request[:success].should be_true
     end
   end
 

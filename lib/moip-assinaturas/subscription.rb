@@ -3,8 +3,8 @@ module Moip::Assinaturas
 
     class << self
 
-      def create(subscription, new_customer = false)
-        response = Moip::Assinaturas::Client.create_subscription(subscription, new_customer)
+      def create(subscription, new_customer = false, opts={})
+        response = Moip::Assinaturas::Client.create_subscription(subscription, new_customer, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -25,8 +25,8 @@ module Moip::Assinaturas
 
       end
 
-      def list
-        response = Moip::Assinaturas::Client.list_subscriptions
+      def list(opts={})
+        response = Moip::Assinaturas::Client.list_subscriptions(opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -41,8 +41,8 @@ module Moip::Assinaturas
 
       end
 
-      def details(code)
-        response = Moip::Assinaturas::Client.details_subscription(code)
+      def details(code, opts={})
+        response = Moip::Assinaturas::Client.details_subscription(code, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -56,8 +56,8 @@ module Moip::Assinaturas
         end      
       end
 
-      def suspend(code)
-        response = Moip::Assinaturas::Client.suspend_subscription(code)
+      def suspend(code, opts={})
+        response = Moip::Assinaturas::Client.suspend_subscription(code, opts)
 
         case response.code
         when 201
@@ -67,8 +67,8 @@ module Moip::Assinaturas
         end
       end
 
-      def activate(code)
-        response = Moip::Assinaturas::Client.activate_subscription(code)
+      def activate(code, opts={})
+        response = Moip::Assinaturas::Client.activate_subscription(code, opts)
 
         case response.code
         when 201

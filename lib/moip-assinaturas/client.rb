@@ -61,24 +61,29 @@ module Moip::Assinaturas
         peform_action!(:put, "/customers/#{customer_code}/billing_infos", opts)
       end
 
-      def create_subscription(subscription, new_customer)
-        peform_action!(:post, "/subscriptions?new_customer=#{new_customer}", { body: subscription.to_json, headers: { 'Content-Type' => 'application/json' } })
+      def create_subscription(subscription, new_customer, opts={})
+        prepare_options(opts, { body: subscription.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:post, "/subscriptions?new_customer=#{new_customer}", opts)
       end
 
-      def list_subscriptions
-        peform_action!(:get, "/subscriptions", { headers: { 'Content-Type' => 'application/json' } })        
+      def list_subscriptions(opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/subscriptions", opts)        
       end
 
-      def details_subscription(code)
-        peform_action!(:get, "/subscriptions/#{code}", { headers: { 'Content-Type' => 'application/json' } })
+      def details_subscription(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/subscriptions/#{code}", opts)
       end
 
-      def suspend_subscription(code)
-        peform_action!(:put, "/subscriptions/#{code}/suspend", { headers: { 'Content-Type' => 'application/json' } }) 
+      def suspend_subscription(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/subscriptions/#{code}/suspend", opts) 
       end
 
-      def activate_subscription(code)
-        peform_action!(:put, "/subscriptions/#{code}/activate", { headers: { 'Content-Type' => 'application/json' } }) 
+      def activate_subscription(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/subscriptions/#{code}/activate", opts) 
       end
 
       def list_invoices(subscription_code, opts={})
