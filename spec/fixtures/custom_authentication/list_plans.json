@@ -1,0 +1,17 @@
+{
+    "plans": [
+        {
+            "code": "plano02",
+            "name": "Plano Especial 2",
+            "description": "Descrição do Plano Especial 2",
+            "amount": 490, //em centavos
+            "setup_fee": 200, //em centavos
+            "max_qty": 2,
+            "interval": {
+                "length": 3,
+                "unit": "MONTH"
+            },
+            "billing_cycles": 1
+        }
+    ]
+}

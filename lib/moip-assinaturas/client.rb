@@ -21,20 +21,24 @@ module Moip::Assinaturas
 
     class << self
 
-      def create_plan(plan)
-        peform_action!(:post, "/plans", { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } })
+      def create_plan(plan, opts={})
+        prepare_options(opts, { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:post, "/plans", opts)
       end
 
-      def list_plans
-        peform_action!(:get, "/plans", { headers: { 'Content-Type' => 'application/json' } })
+      def list_plans(opts)
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/plans", opts)
       end
 
-      def details_plan(code)
-        peform_action!(:get, "/plans/#{code}", { headers: { 'Content-Type' => 'application/json' } })
+      def details_plan(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/plans/#{code}", opts)
       end
 
-      def update_plan(plan)
-        peform_action!(:put, "/plans/#{plan[:code]}", { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } }, true)
+      def update_plan(plan, opts={})
+        prepare_options(opts, { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/plans/#{plan[:code]}", opts, true)
       end
 
       def create_customer(customer, new_vault)
@@ -90,6 +94,29 @@ module Moip::Assinaturas
       end
 
       private
+
+        def prepare_options(custom_options, required_options)
+          custom_options.merge!(required_options)
+
+          if custom_options.include?(:moip_auth)
+            custom_options[:basic_auth] = { 
+              username: custom_options[:moip_auth][:token], 
+              password: custom_options[:moip_auth][:key]
+            }
+
+            if custom_options[:moip_auth].include?(:sandbox)
+              if custom_options[:moip_auth][:sandbox]
+                custom_options[:base_uri] = "https://sandbox.moip.com.br/assinaturas/v1"
+              else
+                custom_options[:base_uri] = "https://api.moip.com.br/assinaturas/v1"
+              end
+            end            
+
+            custom_options.delete(:moip_auth)
+          end
+
+          custom_options
+        end
 
         def peform_action!(action_name, url, options = {}, accepts_blank_body = false)
           if (Moip::Assinaturas.token.blank? or Moip::Assinaturas.key.blank?)
