@@ -91,6 +91,12 @@ Obter detalhes do plano:
 Moip::Assinaturas::Plan.details(plan_code)
 ```
 
+Atualizar informações do plano:
+
+```ruby
+Moip::Assinaturas::Plan.update(plan_attributes)
+```
+
 ## Clientes
 
 Criar um novo cliente:

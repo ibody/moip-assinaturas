@@ -54,6 +54,21 @@ module Moip::Assinaturas
         end
       end
 
+      def update(plan)
+        response = Moip::Assinaturas::Client.update_plan(plan)
+
+        # in the current implementation the Moip signatures API only
+        # returns response code 200 with an empty body even if the update fails
+        case response.code
+        when 200
+          return {
+            success: true
+          }
+        else
+          raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
+        end
+      end
+
     end
   end
 end
