@@ -78,12 +78,12 @@ module Moip::Assinaturas
 
       def suspend_subscription(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:put, "/subscriptions/#{code}/suspend", opts) 
+        peform_action!(:put, "/subscriptions/#{code}/suspend", opts, true) 
       end
 
       def activate_subscription(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:put, "/subscriptions/#{code}/activate", opts) 
+        peform_action!(:put, "/subscriptions/#{code}/activate", opts, true) 
       end
 
       def list_invoices(subscription_code, opts={})

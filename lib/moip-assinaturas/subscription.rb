@@ -60,7 +60,7 @@ module Moip::Assinaturas
         response = Moip::Assinaturas::Client.suspend_subscription(code, opts)
 
         case response.code
-        when 201
+        when 200
           return { success: true }
         else
           raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
@@ -71,7 +71,7 @@ module Moip::Assinaturas
         response = Moip::Assinaturas::Client.activate_subscription(code, opts)
 
         case response.code
-        when 201
+        when 200
           return { success: true }
         else
           raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")

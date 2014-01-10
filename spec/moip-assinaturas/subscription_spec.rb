@@ -57,15 +57,15 @@ describe Moip::Assinaturas::Subscription do
     FakeWeb.register_uri(
       :put, 
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/activate",
-      body: 'CREATED', 
-      status: [201, 'OK']
+      body: '', 
+      status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
       :put, 
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/suspend", 
-      body: 'CREATED',
-      status: [201, 'OK']
+      body: '',
+      status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
@@ -92,15 +92,15 @@ describe Moip::Assinaturas::Subscription do
     FakeWeb.register_uri(
       :put, 
       "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2/activate",
-      body: 'CREATED', 
-      status: [201, 'OK']
+      body: '', 
+      status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
       :put, 
       "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2/suspend", 
-      body: 'CREATED',
-      status: [201, 'OK']
+      body: '',
+      status: [200, 'OK']
     )
   end
 
