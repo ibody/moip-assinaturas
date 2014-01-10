@@ -66,11 +66,11 @@ module Moip::Assinaturas
       end
 
       def suspend_subscription(code)
-        peform_action!(:put, "/subscriptions/#{code}/suspend", { headers: { 'Content-Type' => 'application/json' } }) 
+        peform_action!(:put, "/subscriptions/#{code}/suspend", { headers: { 'Content-Type' => 'application/json' } }, true) 
       end
 
       def activate_subscription(code)
-        peform_action!(:put, "/subscriptions/#{code}/activate", { headers: { 'Content-Type' => 'application/json' } }) 
+        peform_action!(:put, "/subscriptions/#{code}/activate", { headers: { 'Content-Type' => 'application/json' } }, true) 
       end
 
       def list_invoices(subscription_code)
