@@ -3,8 +3,8 @@ module Moip::Assinaturas
 
     class << self
 
-      def create(plan)
-        response = Moip::Assinaturas::Client.create_plan(plan)
+      def create(plan, opts={})
+        response = Moip::Assinaturas::Client.create_plan(plan, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -24,8 +24,8 @@ module Moip::Assinaturas
         end
       end
 
-      def list
-        response = Moip::Assinaturas::Client.list_plans
+      def list(opts={})
+        response = Moip::Assinaturas::Client.list_plans(opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -39,8 +39,8 @@ module Moip::Assinaturas
         end
       end
 
-      def details(code)
-        response = Moip::Assinaturas::Client.details_plan(code)
+      def details(code, opts={})
+        response = Moip::Assinaturas::Client.details_plan(code, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -54,8 +54,8 @@ module Moip::Assinaturas
         end
       end
 
-      def update(plan)
-        response = Moip::Assinaturas::Client.update_plan(plan)
+      def update(plan, opts={})
+        response = Moip::Assinaturas::Client.update_plan(plan, opts)
 
         # in the current implementation the Moip signatures API only
         # returns response code 200 with an empty body even if the update fails

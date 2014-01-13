@@ -209,6 +209,34 @@ end
 ```
 A ideia da arquitetura da classe Webhooks foi baseada na gem - [https://github.com/xdougx/api-moip-assinaturas](https://github.com/xdougx/api-moip-assinaturas) - substituindo os objetos daquela gem por hashs
 
+## Múltiplas Contas Moip
+
+Caso seja preciso utilizar assinaturas com mais de uma conta Moip, basta passar as chaves de acesso na chamada dos métodos demonstrados acima, por exemplo:
+
+Criar um novo plano:
+
+```ruby
+Moip::Assinaturas::Plan.create(plan_attributes, moip_auth: { token: 'TOKEN', key: 'KEY', sandbox: false })
+```
+
+Listar todos planos:
+
+```ruby
+Moip::Assinaturas::Plan.list(moip_auth: { token: 'TOKEN', key: 'KEY', sandbox: false })
+```
+
+Obter detalhes do plano:
+
+```ruby
+Moip::Assinaturas::Plan.details(plan_code, moip_auth: { token: 'TOKEN', key: 'KEY', sandbox: false })
+```
+
+Atualizar informações do plano:
+
+```ruby
+Moip::Assinaturas::Plan.update(plan_attributes, moip_auth: { token: 'TOKEN', key: 'KEY', sandbox: false })
+```
+
 ## Contribuindo
 
 1. Fork it

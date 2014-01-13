@@ -22,8 +22,23 @@ describe Moip::Assinaturas::Plan do
       }
     }
 
-    @plan_update = @plan.clone
-    @plan_update[:name] = 'Plano Especial 2'
+    @plan2 = {
+      code: "plano02",
+      name: "Plano Especial 2",
+      description: "Descrição do Plano Especial 2",
+      amount: 490,
+      setup_fee: 200,
+      max_qty: 2,
+      interval: {
+        length: 3,
+        unit: "MONTH"
+      },
+      billing_cycles: 12,
+      trial: {
+        enabled: true,
+        days: 15
+      }
+    }
 
     FakeWeb.register_uri(
       :post, 
@@ -52,6 +67,34 @@ describe Moip::Assinaturas::Plan do
       body:   "",
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :post, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/plans", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'create_plan.json'),
+      status: [201, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :get, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/plans", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication',  'list_plans.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :get, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/plans/plano02", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication',  'details_plan.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/plans/plano02", 
+      body:   "",
+      status: [200, 'OK']
+    )
   end
 
   it "should can create a new plan" do
@@ -73,7 +116,7 @@ describe Moip::Assinaturas::Plan do
   end
 
   it "should update an existing plan" do
-    request = Moip::Assinaturas::Plan.update(@plan_update)
+    request = Moip::Assinaturas::Plan.update(@plan)
     request[:success].should      be_true
   end
 
@@ -82,6 +125,31 @@ describe Moip::Assinaturas::Plan do
       request = Moip::Assinaturas::Plan.details('plano01')
       expect(request[:plan][:trial][:days]).to eq 10
       expect(request[:plan][:trial][:enabled]).to be_true
+    end
+  end
+
+  context "Custom Authentication" do
+    it "should create a new plan in other moip account" do
+      request = Moip::Assinaturas::Plan.create(@plan2, moip_auth: $custom_moip_auth)
+      request[:success].should      be_true
+      request[:plan][:code].should  == 'plano02'
+    end
+
+    it "should list all plans from other moip account" do
+      request = Moip::Assinaturas::Plan.list(moip_auth: $custom_moip_auth)
+      request[:success].should    be_true
+      request[:plans].size.should == 1
+    end
+
+    it "should get details from a plan of other moip account" do
+      request = Moip::Assinaturas::Plan.details('plano02', moip_auth: $custom_moip_auth)
+      request[:success].should      be_true
+      request[:plan][:code].should  == 'plano02'
+    end
+
+    it "should update an existing plan of other moip account" do
+      request = Moip::Assinaturas::Plan.update(@plan2, moip_auth: $custom_moip_auth)
+      request[:success].should      be_true
     end
   end
 

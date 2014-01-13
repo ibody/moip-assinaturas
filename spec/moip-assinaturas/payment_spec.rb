@@ -19,6 +19,20 @@ describe Moip::Assinaturas::Payment do
       status: [200, 'OK']
     )
 
+    FakeWeb.register_uri(
+      :get, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/invoices/14/payments", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'list_payments.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :get, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/payments/7", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'details_payment.json'),
+      status: [200, 'OK']
+    )
+
   end
 
   it "should get all payments from a invoice" do
@@ -33,4 +47,17 @@ describe Moip::Assinaturas::Payment do
     request[:payment][:id].should   == 6
   end
 
+  context "Custom Authentication" do
+    it "should get all payments from a invoice" do
+      request = Moip::Assinaturas::Payment.list(14, moip_auth: $custom_moip_auth)
+      request[:success].should    be_true
+      request[:payments].size.should == 1
+    end
+
+    it "should get details of a payment" do
+      request = Moip::Assinaturas::Payment.details(7, moip_auth: $custom_moip_auth)
+      request[:success].should        be_true
+      request[:payment][:id].should   == 7
+    end
+  end
 end

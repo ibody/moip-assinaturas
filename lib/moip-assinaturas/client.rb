@@ -21,75 +21,115 @@ module Moip::Assinaturas
 
     class << self
 
-      def create_plan(plan)
-        peform_action!(:post, "/plans", { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } })
+      def create_plan(plan, opts={})
+        prepare_options(opts, { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:post, "/plans", opts)
       end
 
-      def list_plans
-        peform_action!(:get, "/plans", { headers: { 'Content-Type' => 'application/json' } })
+      def list_plans(opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/plans", opts)
       end
 
-      def details_plan(code)
-        peform_action!(:get, "/plans/#{code}", { headers: { 'Content-Type' => 'application/json' } })
+      def details_plan(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/plans/#{code}", opts)
       end
 
-      def update_plan(plan)
-        peform_action!(:put, "/plans/#{plan[:code]}", { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } }, true)
+      def update_plan(plan, opts={})
+        prepare_options(opts, { body: plan.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/plans/#{plan[:code]}", opts, true)
       end
 
-      def create_customer(customer, new_vault)
-        peform_action!(:post, "/customers?new_vault=#{new_vault}", { body: customer.to_json, headers: { 'Content-Type' => 'application/json' } })
+      def create_customer(customer, new_vault, opts={})
+        prepare_options(opts, { body: customer.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:post, "/customers?new_vault=#{new_vault}", opts)
       end
 
-      def list_customers
-        peform_action!(:get, "/customers", { headers: { 'Content-Type' => 'application/json' } })
+      def list_customers(opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/customers", opts)
       end
 
-      def details_customer(code)
-        peform_action!(:get, "/customers/#{code}", { headers: { 'Content-Type' => 'application/json' } })
+      def details_customer(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/customers/#{code}", opts)
       end
 
-      def update_credit_card(customer_code, credit_card)
-        peform_action!(:put, "/customers/#{customer_code}/billing_infos", { body: credit_card.to_json, headers: { 'Content-Type' => 'application/json' } })
+      def update_credit_card(customer_code, credit_card, opts={})
+        prepare_options(opts, { body: credit_card.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/customers/#{customer_code}/billing_infos", opts)
       end
 
-      def create_subscription(subscription, new_customer)
-        peform_action!(:post, "/subscriptions?new_customer=#{new_customer}", { body: subscription.to_json, headers: { 'Content-Type' => 'application/json' } })
+      def create_subscription(subscription, new_customer, opts={})
+        prepare_options(opts, { body: subscription.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:post, "/subscriptions?new_customer=#{new_customer}", opts)
       end
 
-      def list_subscriptions
-        peform_action!(:get, "/subscriptions", { headers: { 'Content-Type' => 'application/json' } })        
+      def list_subscriptions(opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/subscriptions", opts)        
       end
 
-      def details_subscription(code)
-        peform_action!(:get, "/subscriptions/#{code}", { headers: { 'Content-Type' => 'application/json' } })
+      def details_subscription(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/subscriptions/#{code}", opts)
       end
 
-      def suspend_subscription(code)
-        peform_action!(:put, "/subscriptions/#{code}/suspend", { headers: { 'Content-Type' => 'application/json' } }, true) 
+      def suspend_subscription(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/subscriptions/#{code}/suspend", opts, true) 
       end
 
-      def activate_subscription(code)
-        peform_action!(:put, "/subscriptions/#{code}/activate", { headers: { 'Content-Type' => 'application/json' } }, true) 
+      def activate_subscription(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/subscriptions/#{code}/activate", opts, true)
       end
 
-      def list_invoices(subscription_code)
-        peform_action!(:get, "/subscriptions/#{subscription_code}/invoices", { headers: { 'Content-Type' => 'application/json' } })
+      def list_invoices(subscription_code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/subscriptions/#{subscription_code}/invoices", opts)
       end
 
-      def details_invoice(id)
-        peform_action!(:get, "/invoices/#{id}", { headers: { 'Content-Type' => 'application/json' } })        
+      def details_invoice(id, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/invoices/#{id}", opts)
       end
 
-      def list_payments(invoice_id)
-        peform_action!(:get, "/invoices/#{invoice_id}/payments", { headers: { 'Content-Type' => 'application/json' } })        
+      def list_payments(invoice_id, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/invoices/#{invoice_id}/payments", opts)        
       end
 
-      def details_payment(id)
-        peform_action!(:get, "/payments/#{id}", { headers: { 'Content-Type' => 'application/json' } })        
+      def details_payment(id, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })   
+        peform_action!(:get, "/payments/#{id}", opts)        
       end
 
       private
+
+        def prepare_options(custom_options, required_options)
+          custom_options.merge!(required_options)
+
+          if custom_options.include?(:moip_auth)
+            custom_options[:basic_auth] = { 
+              username: custom_options[:moip_auth][:token], 
+              password: custom_options[:moip_auth][:key]
+            }
+
+            if custom_options[:moip_auth].include?(:sandbox)
+              if custom_options[:moip_auth][:sandbox]
+                custom_options[:base_uri] = "https://sandbox.moip.com.br/assinaturas/v1"
+              else
+                custom_options[:base_uri] = "https://api.moip.com.br/assinaturas/v1"
+              end
+            end            
+
+            custom_options.delete(:moip_auth)
+          end
+
+          custom_options
+        end
 
         def peform_action!(action_name, url, options = {}, accepts_blank_body = false)
           if (Moip::Assinaturas.token.blank? or Moip::Assinaturas.key.blank?)
