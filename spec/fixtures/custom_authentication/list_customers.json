@@ -1,0 +1,15 @@
+{
+  "customers": [
+    {
+      "code": "cliente1",
+      "fullname": "Nome Sobrenome",
+      "email": "nome@exemplo.com",
+      "cpf": "22222222222",
+      "phone_area_code": "11",
+      "phone_number": "990909090",
+      "birthdate_day": "29",
+      "birthdate_month": "04",
+      "birthdate_year": "1980"
+    }
+  ]
+}

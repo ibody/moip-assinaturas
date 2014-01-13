@@ -3,8 +3,8 @@ module Moip::Assinaturas
 
     class << self
 
-      def list(subscription_code)
-        response = Moip::Assinaturas::Client.list_invoices(subscription_code)
+      def list(subscription_code, opts={})
+        response = Moip::Assinaturas::Client.list_invoices(subscription_code, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -18,8 +18,8 @@ module Moip::Assinaturas
         end
       end
 
-      def details(id)
-        response = Moip::Assinaturas::Client.details_invoice(id)
+      def details(id, opts={})
+        response = Moip::Assinaturas::Client.details_invoice(id, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code

@@ -3,8 +3,8 @@ module Moip::Assinaturas
 
     class << self
 
-      def create(customer, new_valt = true)
-        response = Moip::Assinaturas::Client.create_customer(customer, new_valt)
+      def create(customer, new_valt = true, opts = {})
+        response = Moip::Assinaturas::Client.create_customer(customer, new_valt, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -24,8 +24,8 @@ module Moip::Assinaturas
         end
       end
 
-      def list
-        response = Moip::Assinaturas::Client.list_customers
+      def list(opts = {})
+        response = Moip::Assinaturas::Client.list_customers(opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -39,8 +39,8 @@ module Moip::Assinaturas
         end
       end
 
-      def details(code)
-        response = Moip::Assinaturas::Client.details_customer(code)
+      def details(code, opts = {})
+        response = Moip::Assinaturas::Client.details_customer(code, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -54,8 +54,8 @@ module Moip::Assinaturas
         end
       end
 
-      def update_credit_card(customer_code, credit_card)
-        response = Moip::Assinaturas::Client.update_credit_card(customer_code, credit_card)
+      def update_credit_card(customer_code, credit_card, opts = {})
+        response = Moip::Assinaturas::Client.update_credit_card(customer_code, credit_card, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code

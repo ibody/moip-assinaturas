@@ -61,6 +61,34 @@ describe Moip::Assinaturas::Customer do
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'update_credit_card.json'),
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :post, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers?new_vault=true", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'create_customer.json'),
+      status: [201, 'CREATED']
+    )
+
+    FakeWeb.register_uri(
+      :get, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'list_customers.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :get, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers/18", 
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'details_customer.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put, 
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers/19/billing_infos",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'update_credit_card.json'),
+      status: [200, 'OK']
+    )
   end
 
   it "should create a new customer" do
@@ -93,4 +121,35 @@ describe Moip::Assinaturas::Customer do
     request[:success].should be_true
   end
 
+  context "Custom Authentication" do
+    it "should create a new customer in other moip account" do
+      request = Moip::Assinaturas::Customer.create(@customer, true, moip_auth: $custom_moip_auth)
+      request[:success].should be_true
+    end
+
+    it "should list all customers from custom moip account" do
+      request = Moip::Assinaturas::Customer.list(moip_auth: $custom_moip_auth)
+      request[:success].should         be_true
+      request[:customers].size.should  == 1
+    end
+
+    it "should get the customer details of custom moip account" do
+      request = Moip::Assinaturas::Customer.details('18', moip_auth: $custom_moip_auth)
+      request[:success].should             be_true
+      request[:customer][:code].should     == '19'
+    end
+
+    it "should update the customer card info from custom moip account" do
+      request = Moip::Assinaturas::Customer.update_credit_card(19, {
+        credit_card: {
+          holder_name:      'Novo nome 2',
+          number:           '5555666677778884',
+          expiration_month: '04',
+          expiration_year:  '15'
+        }
+      }, moip_auth: $custom_moip_auth)
+
+      request[:success].should be_true
+    end
+  end
 end
