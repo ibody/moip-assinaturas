@@ -125,6 +125,12 @@ Criar uma nova assinatura:
 Moip::Assinaturas::Subscription.create(subscription_attributes, new_customer = false)
 ```
 
+Atualizar uma assinatura:
+
+```ruby
+Moip::Assinaturas::Subscription.update(subscription_code, { plan: { code: 'plan2' } })
+```
+
 Listar todas assinaturas:
 
 ```ruby

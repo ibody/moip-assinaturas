@@ -3,13 +3,13 @@ require 'spec_helper'
 
 RSpec::Matchers.define :have_valid_trial_dates do
   match do |actual|
-    (actual[:start][:day] == 27 && actual[:start][:month] == 9 && actual[:start][:year] == 2013) && 
+    (actual[:start][:day] == 27 && actual[:start][:month] == 9 && actual[:start][:year] == 2013) &&
     (actual[:end][:day] == 17 && actual[:end][:month] == 10 && actual[:end][:year] == 2013)
   end
 end
 
 describe Moip::Assinaturas::Subscription do
-  
+
   before(:all) do
     @subscription = {
       code: "assinatura1",
@@ -34,71 +34,79 @@ describe Moip::Assinaturas::Subscription do
     }
 
     FakeWeb.register_uri(
-      :post, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false", 
+      :post,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'create_subscription.json'),
       status: [201, 'CREATED']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions", 
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_subscriptions.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1", 
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_subscription.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :put, 
+      :put,
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/activate",
-      body: '', 
-      status: [200, 'OK']
-    )
-
-    FakeWeb.register_uri(
-      :put, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/suspend", 
       body: '',
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :post, 
-      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false", 
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/suspend",
+      body: '',
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :post,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'create_subscription.json'),
       status: [201, 'CREATED']
     )
 
+    # UPDATE SUBSCRIPTION
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions", 
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1",
+      body: '',
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :get,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'list_subscriptions.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2", 
+      :get,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'details_subscription.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :put, 
+      :put,
       "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2/activate",
-      body: '', 
+      body: '',
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :put, 
-      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2/suspend", 
+      :put,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2/suspend",
       body: '',
       status: [200, 'OK']
     )
@@ -108,6 +116,11 @@ describe Moip::Assinaturas::Subscription do
     request = Moip::Assinaturas::Subscription.create(@subscription)
     request[:success].should be_true
     request[:subscription][:code].should == 'ass_homolog_72'
+  end
+
+  it "should update a subscription" do
+    request = Moip::Assinaturas::Subscription.update(@subscription[:code], { amount: 9990 })
+    request[:success].should be_true
   end
 
   it "should list all subscriptions" do
