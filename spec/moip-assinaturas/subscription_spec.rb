@@ -69,6 +69,13 @@ describe Moip::Assinaturas::Subscription do
     )
 
     FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/cancel",
+      body: '',
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
       :post,
       "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions?new_customer=false",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'create_subscription.json'),
@@ -110,6 +117,13 @@ describe Moip::Assinaturas::Subscription do
       body: '',
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions/assinatura2/cancel",
+      body: '',
+      status: [200, 'OK']
+    )
   end
 
   it "should create a new subscription" do
@@ -142,6 +156,16 @@ describe Moip::Assinaturas::Subscription do
 
   it "should reactive a subscription" do
     request = Moip::Assinaturas::Subscription.activate('assinatura1')
+    request[:success].should be_true
+  end
+
+  it "should suspend a subscription" do
+    request = Moip::Assinaturas::Subscription.suspend('assinatura1')
+    request[:success].should be_true
+  end
+
+  it "should cancel a subscription" do
+    request = Moip::Assinaturas::Subscription.cancel('assinatura1')
     request[:success].should be_true
   end
 
@@ -178,6 +202,11 @@ describe Moip::Assinaturas::Subscription do
 
     it "should reactive a subscription from a custom moip account" do
       request = Moip::Assinaturas::Subscription.activate('assinatura2', moip_auth: $custom_moip_auth)
+      request[:success].should be_true
+    end
+
+    it "should cancel a subscription from a custom moip account" do
+      request = Moip::Assinaturas::Subscription.cancel('assinatura2', moip_auth: $custom_moip_auth)
       request[:success].should be_true
     end
   end
