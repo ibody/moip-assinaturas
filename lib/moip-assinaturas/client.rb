@@ -91,6 +91,11 @@ module Moip::Assinaturas
         peform_action!(:put, "/subscriptions/#{code}/activate", opts, true)
       end
 
+      def cancel_subscription(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/subscriptions/#{code}/cancel", opts, true)
+      end
+
       def list_invoices(subscription_code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
         peform_action!(:get, "/subscriptions/#{subscription_code}/invoices", opts)

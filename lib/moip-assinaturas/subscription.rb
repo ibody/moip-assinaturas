@@ -115,6 +115,25 @@ module Moip::Assinaturas
         end
       end
 
+      def cancel(code, opts={})
+        response = Moip::Assinaturas::Client.cancel_subscription(code, opts)
+        hash     = JSON.load(response.body)
+        hash     = hash ? hash.with_indifferent_access : {}
+
+        case response.code
+        when 200
+          return { success: true }
+        when 400
+          return {
+            success: false,
+            message: hash[:message],
+            errors:  hash[:errors]
+          }
+        else
+          raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
+        end
+      end
+
     end
 
   end
