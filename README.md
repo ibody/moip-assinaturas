@@ -155,6 +155,12 @@ Ativar uma assinatura:
 Moip::Assinaturas::Subscription.activate(subscription_code)
 ```
 
+Cancelar uma assinatura:
+
+```ruby
+Moip::Assinaturas::Subscription.cancel(subscription_code)
+```
+
 ## Faturas
 
 Listar faturas de uma assinatura:
