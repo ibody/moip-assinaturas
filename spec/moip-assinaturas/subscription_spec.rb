@@ -55,6 +55,13 @@ describe Moip::Assinaturas::Subscription do
     )
 
     FakeWeb.register_uri(
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/not_found",
+      body: '',
+      status: [404, 'Not found']
+    )
+
+    FakeWeb.register_uri(
       :put,
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/activate",
       body: '',
@@ -143,10 +150,18 @@ describe Moip::Assinaturas::Subscription do
     request[:subscriptions].size.should  == 1
   end
 
-  it "should get the subscription details" do
-    request = Moip::Assinaturas::Subscription.details('assinatura1')
-    request[:success].should                be_true
-    request[:subscription][:code].should == 'assinatura1'
+  describe 'subscription details' do
+    it "should get the subscription details" do
+      request = Moip::Assinaturas::Subscription.details('assinatura1')
+      request[:success].should                be_true
+      request[:subscription][:code].should == 'assinatura1'
+    end
+
+    it 'should return not found when the subscription does not exist' do
+      request = Moip::Assinaturas::Subscription.details('not_found')
+      request[:success].should                be_false
+      request[:message].should == 'not found'
+    end
   end
 
   it "should suspend a subscription" do

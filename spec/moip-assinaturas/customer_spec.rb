@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Moip::Assinaturas::Customer do
-  
+
   before(:all) do
     @customer = {
       code:             "18",
@@ -35,56 +35,63 @@ describe Moip::Assinaturas::Customer do
     }
 
     FakeWeb.register_uri(
-      :post, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers?new_vault=true", 
+      :post,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers?new_vault=true",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'create_customer.json'),
       status: [201, 'CREATED']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers", 
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_customers.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18", 
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_customer.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :put, 
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/not_found",
+      body:   '',
+      status: [404, 'Not found']
+    )
+
+    FakeWeb.register_uri(
+      :put,
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18/billing_infos",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'update_credit_card.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :post, 
-      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers?new_vault=true", 
+      :post,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers?new_vault=true",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'create_customer.json'),
       status: [201, 'CREATED']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers", 
+      :get,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'list_customers.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :get, 
-      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers/18", 
+      :get,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers/18",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'details_customer.json'),
       status: [200, 'OK']
     )
 
     FakeWeb.register_uri(
-      :put, 
+      :put,
       "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers/19/billing_infos",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'update_credit_card.json'),
       status: [200, 'OK']
@@ -102,10 +109,18 @@ describe Moip::Assinaturas::Customer do
     request[:customers].size.should  == 1
   end
 
-  it "should get the customer details" do
-    request = Moip::Assinaturas::Customer.details('18')
-    request[:success].should             be_true
-    request[:customer][:code].should     == '18'
+  describe 'customer details' do
+    it "should get the customer details" do
+      request = Moip::Assinaturas::Customer.details('18')
+      request[:success].should             be_true
+      request[:customer][:code].should     == '18'
+    end
+
+    it "should return not found when the customer does not exist" do
+      request = Moip::Assinaturas::Customer.details('not_found')
+      request[:success].should             be_false
+      request[:message].should ==          'not found'
+    end
   end
 
   it "should update the customer card info" do

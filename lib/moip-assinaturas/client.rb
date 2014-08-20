@@ -33,7 +33,7 @@ module Moip::Assinaturas
 
       def details_plan(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:get, "/plans/#{code}", opts)
+        peform_action!(:get, "/plans/#{code}", opts, true)
       end
 
       def update_plan(plan, opts={})
@@ -53,7 +53,7 @@ module Moip::Assinaturas
 
       def details_customer(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:get, "/customers/#{code}", opts)
+        peform_action!(:get, "/customers/#{code}", opts, true)
       end
 
       def update_credit_card(customer_code, credit_card, opts={})
@@ -78,7 +78,7 @@ module Moip::Assinaturas
 
       def details_subscription(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:get, "/subscriptions/#{code}", opts)
+        peform_action!(:get, "/subscriptions/#{code}", opts, true)
       end
 
       def suspend_subscription(code, opts={})
@@ -103,7 +103,7 @@ module Moip::Assinaturas
 
       def details_invoice(id, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:get, "/invoices/#{id}", opts)
+        peform_action!(:get, "/invoices/#{id}", opts, true)
       end
 
       def list_payments(invoice_id, opts={})
