@@ -117,6 +117,11 @@ Obter detalhes do cliente:
 Moip::Assinaturas::Customer.details(customer_code)
 ```
 
+Atualizar cliente existente:
+
+```ruby
+Moip::Assinaturas::Customer.update(customer_code, { fullname: 'Foo Bar' })
+```
 ## Assinaturas
 
 Criar uma nova assinatura:
