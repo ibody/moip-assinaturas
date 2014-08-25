@@ -70,6 +70,20 @@ describe Moip::Assinaturas::Customer do
     )
 
     FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/18",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'update_customer.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/customers/not_found",
+      body: '',
+      status: [404, 'Not found']
+    )
+
+    FakeWeb.register_uri(
       :post,
       "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/customers?new_vault=true",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'custom_authentication', 'create_customer.json'),
@@ -107,6 +121,19 @@ describe Moip::Assinaturas::Customer do
     request = Moip::Assinaturas::Customer.list
     request[:success].should         be_true
     request[:customers].size.should  == 1
+  end
+
+  describe 'update customer information' do
+    it 'should update a customer information' do
+      request = Moip::Assinaturas::Customer.update(@customer[:code], { fullname: 'Foo Bar' })
+      request[:success].should         be_true
+    end
+
+    it 'should return not found when updating a customer that does not exist' do
+      request = Moip::Assinaturas::Customer.update('not_found', { fullname: 'Foo Bar' })
+      request[:success].should         be_false
+      request[:message].should == 'not found'
+    end
   end
 
   describe 'customer details' do

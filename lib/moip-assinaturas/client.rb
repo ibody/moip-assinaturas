@@ -51,6 +51,11 @@ module Moip::Assinaturas
         peform_action!(:get, "/customers", opts)
       end
 
+      def update_customer(code, changes, opts={})
+        prepare_options(opts, { body: changes.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/customers/#{code}", opts, true)
+      end
+
       def details_customer(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
         peform_action!(:get, "/customers/#{code}", opts, true)
