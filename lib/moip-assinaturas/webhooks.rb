@@ -32,7 +32,6 @@ module Moip::Assinaturas
     end
 
     def on(model, on_events, &block)
-
       unless events[model]
         events[model] = {}
       end
@@ -42,12 +41,17 @@ module Moip::Assinaturas
           events[model][event] = []
         end
 
-        events[model][event] << block
+        events[model][event] = block
       end
     end
 
+    def missing(&block)
+      events[:missing] = block
+    end
+
     def run
-      events[model][event].each { |action| action.call } if (events[model] && events[model][event])
+      return events[model][event].call(event) if (events[model] && events[model][event])
+      events[:missing].call(model, event) if events[:missing]
     end
   end
 end
