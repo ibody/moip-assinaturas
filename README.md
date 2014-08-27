@@ -202,7 +202,7 @@ A classe Webhooks foi desenvolvida para cobrir qualquer caso de envio do Moip. U
 # como eu costumo usar o rails então
 class WebhooksController < ApplicationController
   def webhooks
-    Moip::Assinaturas::Webhooks.listen(request) do |hook|
+    resultado = Moip::Assinaturas::Webhooks.listen(request) do |hook|
 
       # quando o moip envia dado sobre a criação de um plano
       hook.on(:plan, :created) do
@@ -216,11 +216,24 @@ class WebhooksController < ApplicationController
         end
       end
 
+      # trata vários eventos de um model no mesmo hook
+      hook.on(:subscription, [:canceled, :suspended]) do |status|
+        deleta_assinatura(motivo: status)
+      end
+
       hook.on(:subscription, :created) do
         # Fazer algo
       end
+
+      # hook para capturar eventos que ainda não são explicitamente tratados
+      hook.missing do |model, event| do
+        Rails.logger.warn "Não encontrado hook para o modelo #{model} e evento #{event}"
+        false
+      end
     end
-    render :text => "done ok"
+
+    render :text => "done ok" and return if resultado
+    render nothing: true, status: :bad_request
   end
 end
 ```
