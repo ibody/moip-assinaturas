@@ -226,7 +226,7 @@ class WebhooksController < ApplicationController
       end
 
       # hook para capturar eventos que ainda não são explicitamente tratados
-      hook.missing do |model, event| do
+      hook.missing do |model, event|
         Rails.logger.warn "Não encontrado hook para o modelo #{model} e evento #{event}"
         false
       end
