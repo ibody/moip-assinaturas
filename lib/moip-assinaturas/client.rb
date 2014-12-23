@@ -10,6 +10,8 @@ module Moip::Assinaturas
 
   class Client
     include HTTParty
+    
+    debug_output $stdout
 
     if Moip::Assinaturas.sandbox
       base_uri "https://sandbox.moip.com.br/assinaturas/v1"
