@@ -16,7 +16,9 @@ module Moip
     autoload :Client,       'moip-assinaturas/client'
 
     mattr_accessor :sandbox
+    mattr_accessor :http_debug
     @@sandbox = false
+    @@http_debug = false
 
     # Token de autenticação
     mattr_accessor :token
