@@ -127,7 +127,7 @@ module Moip::Assinaturas
 
       private
         def oauth?(authorization_hash)
-          raise
+          raise MissingTokenError.new if authorization_hash.nil? || !authorization_hash.downcase.include?("oauth")
         end
 
         def prepare_options(custom_options, required_options)
