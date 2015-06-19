@@ -162,7 +162,12 @@ module Moip::Assinaturas
             raise(MissingTokenError, "Informe o token e a key para realizar a autenticação no webservice")
           end
 
-          response = self.send(action_name, url, options)
+          new_url = url
+          new_url = new_url + "?" if options[:limit] || options[:offset]
+          new_url = "#{new_url}limit=#{options[:limit]}&" if options[:limit]
+          new_url = "#{new_url}offset=#{options[:offset]}" if options[:offset]
+
+          response = self.send(action_name, new_url, options)
 
           # when updating a plan the response body is empty and then
           # the response.nil? returns true despite that the response code was 200 OK

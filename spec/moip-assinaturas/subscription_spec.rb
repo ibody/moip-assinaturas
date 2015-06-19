@@ -49,6 +49,27 @@ describe Moip::Assinaturas::Subscription do
 
     FakeWeb.register_uri(
       :get,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions?limit=1&",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_subscriptions_page.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :get,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions?offset=2",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_subscriptions_page.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :get,
+      "https://TOKEN2:KEY2@api.moip.com.br/assinaturas/v1/subscriptions?limit=3&offset=4",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_subscriptions_page.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :get,
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_subscription.json'),
       status: [200, 'OK']
@@ -202,6 +223,24 @@ describe Moip::Assinaturas::Subscription do
       request = Moip::Assinaturas::Subscription.list(moip_auth: $custom_moip_auth)
       request[:success].should             be_true
       request[:subscriptions].size.should  == 1
+    end
+
+    it "should list all subscriptions with limit" do
+      request = Moip::Assinaturas::Subscription.list(moip_auth: $custom_moip_auth, limit: "1")
+      request[:success].should             be_true
+      request[:subscriptions].size.should  == 3
+    end
+
+    it "should list all subscriptions with offset" do
+      request = Moip::Assinaturas::Subscription.list(moip_auth: $custom_moip_auth, offset: "2")
+      request[:success].should             be_true
+      request[:subscriptions].size.should  == 3
+    end
+
+    it "should list all subscriptions with limit and offset" do
+      request = Moip::Assinaturas::Subscription.list(moip_auth: $custom_moip_auth, offset: "4", limit: "3")
+      request[:success].should             be_true
+      request[:subscriptions].size.should  == 3
     end
 
     it "should get the subscription details from a custom moip account" do
