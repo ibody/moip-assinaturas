@@ -126,15 +126,22 @@ module Moip::Assinaturas
       end
 
       private
+        def oauth?(authorization_hash)
+          raise MissingTokenError.new if authorization_hash.nil? || !authorization_hash.downcase.include?("oauth")
+        end
 
         def prepare_options(custom_options, required_options)
           custom_options.merge!(required_options)
-
           if custom_options.include?(:moip_auth)
-            custom_options[:basic_auth] = {
-              username: custom_options[:moip_auth][:token],
-              password: custom_options[:moip_auth][:key]
-            }
+
+            if custom_options[:moip_auth][:token] && custom_options[:moip_auth][:key]
+              custom_options[:basic_auth] = {
+                username: custom_options[:moip_auth][:token],
+                password: custom_options[:moip_auth][:key]
+              }
+            elsif oauth? custom_options[:moip_auth][:oauth][:accessToken]
+              custom_options[:authorization] = "OAuth #{custom_options[:moip_auth][:oauth][:accessToken]}"
+            end
 
             if custom_options[:moip_auth].include?(:sandbox)
               if custom_options[:moip_auth][:sandbox]

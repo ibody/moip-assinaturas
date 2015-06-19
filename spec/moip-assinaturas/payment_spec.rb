@@ -59,5 +59,13 @@ describe Moip::Assinaturas::Payment do
       request[:success].should        be_true
       request[:payment][:id].should   == 7
     end
+
+    it "should raise exception from invalid oauth" do
+      expect{ Moip::Assinaturas::Payment.details(7, moip_auth: { oauth: {accessToken: "sefghjrs"}, sandbox: true})}.to raise_error  Moip::Assinaturas::MissingTokenError
+    end
+
+    it "shoul raise exception from nil oauth" do
+      expect{ Moip::Assinaturas::Payment.details(7, moip_auth: { oauth: {accessToken: ""}, sandbox: true })}.to raise_error Moip::Assinaturas::MissingTokenError
+    end
   end
 end
