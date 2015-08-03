@@ -16,7 +16,7 @@ module Moip::Assinaturas
     end
 
     if Moip::Assinaturas.sandbox
-      base_uri "https://sandbox.moip.com.br/assinaturas/v1"
+      base_uri "https://sandbox.moip.com.br/assinaturas-api/v1"
     else
       base_uri "https://api.moip.com.br/assinaturas/v1"
     end
