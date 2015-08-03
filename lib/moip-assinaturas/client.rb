@@ -21,7 +21,7 @@ module Moip::Assinaturas
       base_uri "https://api.moip.com.br/assinaturas/v1"
     end
 
-    basic_auth Moip::Assinaturas.token, Moip::Assinaturas.key
+  #  basic_auth Moip::Assinaturas.token, Moip::Assinaturas.key
 
     class << self
 
