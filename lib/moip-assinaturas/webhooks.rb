@@ -1,9 +1,9 @@
 module Moip::Assinaturas
   class Webhooks
-    attr_accessor :model, :event, :date, :env, :resource, :events
+    attr_accessor :model, :event, :date, :env, :resource, :events 
 
     class << self
-      def build(json)
+      def build(json) 
         object = new
         object.model    = get_model(json['event'])
         object.event    = get_event(json['event'])

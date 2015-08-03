@@ -81,7 +81,7 @@ module Moip::Assinaturas
       end
 
       def list_subscriptions(opts={})
-        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' } })
         peform_action!(:get, "/subscriptions", opts)
       end
 
@@ -128,6 +128,7 @@ module Moip::Assinaturas
       private
         def oauth?(authorization_hash)
           raise MissingTokenError.new if authorization_hash.nil? || !authorization_hash.downcase.include?("oauth")
+          true
         end
 
         def prepare_options(custom_options, required_options)
@@ -140,12 +141,12 @@ module Moip::Assinaturas
                 password: custom_options[:moip_auth][:key]
               }
             elsif oauth? custom_options[:moip_auth][:oauth][:accessToken]
-              custom_options[:authorization] = "OAuth #{custom_options[:moip_auth][:oauth][:accessToken]}"
+              custom_options[:headers]["Authorization"] = "#{custom_options[:moip_auth][:oauth][:accessToken]}"
             end
 
             if custom_options[:moip_auth].include?(:sandbox)
               if custom_options[:moip_auth][:sandbox]
-                custom_options[:base_uri] = "https://sandbox.moip.com.br/assinaturas/v1"
+                custom_options[:base_uri] = "https://sandbox.moip.com.br/assinaturas-api/v1"
               else
                 custom_options[:base_uri] = "https://api.moip.com.br/assinaturas/v1"
               end
@@ -153,12 +154,11 @@ module Moip::Assinaturas
 
             custom_options.delete(:moip_auth)
           end
-
           custom_options
         end
 
         def peform_action!(action_name, url, options = {}, accepts_blank_body = false)
-          if (Moip::Assinaturas.token.blank? or Moip::Assinaturas.key.blank?)
+          if ((Moip::Assinaturas.token.blank? or Moip::Assinaturas.key.blank?) and (options[:headers]["Authorization"].blank?))
             raise(MissingTokenError, "Informe o token e a key para realizar a autenticação no webservice")
           end
 
