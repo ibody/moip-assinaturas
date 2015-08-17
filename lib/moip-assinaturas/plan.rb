@@ -62,9 +62,8 @@ module Moip::Assinaturas
 
       def update(plan, opts={})
         response = Moip::Assinaturas::Client.update_plan(plan, opts)
+        hash     = JSON.load(response.body).with_indifferent_access
 
-        # in the current implementation the Moip signatures API only
-        # returns response code 200 with an empty body even if the update fails
         case response.code
         when 200
           return {
