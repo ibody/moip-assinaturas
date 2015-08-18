@@ -62,7 +62,7 @@ module Moip::Assinaturas
 
       def update(plan, opts={})
         response = Moip::Assinaturas::Client.update_plan(plan, opts)
-        hash     = JSON.load(response.body).with_indifferent_access
+        hash     = JSON.load(response.body).with_indifferent_access if response.body
 
         case response.code
         when 200
@@ -71,9 +71,7 @@ module Moip::Assinaturas
           }
         when 400
           return {
-            success: false,
-            message: hash['message'],
-            errors:  hash['errors']
+            success: false
           }
         else
           raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
