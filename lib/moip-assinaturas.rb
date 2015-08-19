@@ -14,6 +14,7 @@ module Moip
     autoload :Payment,      'moip-assinaturas/payment'
     autoload :Webhooks,     'moip-assinaturas/webhooks'
     autoload :Client,       'moip-assinaturas/client'
+    autoload :Coupon,       'moip-assinaturas/coupon'
 
     mattr_accessor :sandbox
     mattr_accessor :http_debug

@@ -1,9 +1,21 @@
 module Moip::Assinaturas
-  class Invoice
+  class Coupon
 
     class << self
 
       def list(opts={})
+        response = Moip::Assinaturas::Client.list_coupon(opts)
+        array     = JSON.load(response.body)
+
+        case response.code
+        when 200
+          return {
+            success:  true,
+            coupons:    array
+          }
+        else
+          raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
+        end
       end
 
       def details(id, opts={})
@@ -17,7 +29,7 @@ module Moip::Assinaturas
         when 201
           return {
             success: true,
-            plan:    hash
+            coupons:    hash
           }
         when 400
           return {

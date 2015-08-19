@@ -132,6 +132,11 @@ module Moip::Assinaturas
         peform_action!(:post, "/coupons", opts)
       end
 
+      def list_coupon(opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/coupons", opts)
+      end
+
       private
         def oauth?(authorization_hash)
           raise MissingTokenError.new if authorization_hash.nil? || !authorization_hash.downcase.include?("oauth")
