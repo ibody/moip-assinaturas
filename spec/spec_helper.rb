@@ -2,6 +2,9 @@ require 'rspec'
 require 'fakeweb'
 require 'pry'
 require 'moip-assinaturas'
+require 'simplecov'
+
+SimpleCov.start
 
 FakeWeb.allow_net_connect = false
 
