@@ -1,0 +1,27 @@
+{
+    "amount": 10000,
+    "plan": {
+        "name": "Teste Plano",
+        "code": "plano1"
+    },
+    "status": "TRIAL",
+    "invoice": {
+        "amount": 0,
+        "id": 1022252,
+        "invoiceStatus": {
+            "description": "Pago",
+            "code": 3
+        }
+    },
+    "nextInvoiceDate": {
+        "day": 31,
+        "month": 8,
+        "year": 2015
+    },
+    "code": "assinatura1",
+    "customer": {
+        "email": "nome@exemplo.com.br",
+        "code": "18",
+        "fullname": "Nome Sobrenome"
+    }
+}

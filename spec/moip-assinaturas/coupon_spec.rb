@@ -44,6 +44,20 @@ describe Moip::Assinaturas::Coupon do
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_coupon.json'),
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/coupons/coupon-0001/active",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'active_coupon.json'),
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/coupons/coupon-0001/inactive",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'inactive_coupon.json'),
+      status: [200, 'OK']
+    )
   end
 
   it "should create a new coupon" do
@@ -63,5 +77,19 @@ describe Moip::Assinaturas::Coupon do
     request[:success].should be_truthy
     request[:coupon][:code] == "coupon-0001"
   end
- 
+
+  it "should active a coupon" do
+    request = Moip::Assinaturas::Coupon.active('coupon-0001')
+    request[:success].should be_truthy
+    request[:coupon][:code] == "coupon-0001"
+    request[:coupon][:status] == "active"
+  end
+
+  it "should inactive a coupon" do
+    request = Moip::Assinaturas::Coupon.inactive('coupon-0001')
+    request[:success].should be_truthy
+    request[:coupon][:code] == "coupon-0001"
+    request[:coupon][:status] == "inactive"
+  end
+
 end

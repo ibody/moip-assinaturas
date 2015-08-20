@@ -131,6 +131,13 @@ describe Moip::Assinaturas::Subscription do
       body: '',
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :delete,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/coupon",
+      body: File.join(File.dirname(__FILE__), '..', 'fixtures', 'delete_coupon_subscription.json'),
+      status: [200, 'OK']
+    )
   end
 
   it "should create a new subscription" do
@@ -182,6 +189,11 @@ describe Moip::Assinaturas::Subscription do
   it "should cancel a subscription" do
     request = Moip::Assinaturas::Subscription.cancel('assinatura1')
     request[:success].should be_true
+  end
+
+  it "should delete a coupon of subscription" do
+    request = Moip::Assinaturas::Subscription.delete_coupon('assinatura1')
+    request[:success].should be_truthy
   end
 
   context "Trial" do

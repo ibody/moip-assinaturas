@@ -101,9 +101,6 @@ module Moip::Assinaturas
           raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
         end
       end
-
-      def delete(coupon, opts={})
-      end
     end
   end
 end
