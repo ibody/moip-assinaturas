@@ -173,7 +173,6 @@ module Moip::Assinaturas
           if ((Moip::Assinaturas.token.blank? or Moip::Assinaturas.key.blank?) and (options[:headers]["Authorization"].blank?))
             raise(MissingTokenError, "Informe o token e a key para realizar a autenticação no webservice")
           end
-
           response = self.send(action_name, url, options)
 
           # when updating a plan the response body is empty and then

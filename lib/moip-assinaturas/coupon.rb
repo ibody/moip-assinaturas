@@ -29,7 +29,7 @@ module Moip::Assinaturas
         when 201
           return {
             success: true,
-            coupons:    hash
+            coupon:    hash
           }
         when 400
           return {
