@@ -142,9 +142,14 @@ module Moip::Assinaturas
         peform_action!(:get, "/coupons/#{code}", opts)
       end
 
-      def active_coupon(code)
+      def active_coupon(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:put, "/coupons/#{code}/active", opts)
+        peform_action!(:put, "/coupons/#{code}/active")
+      end
+
+      def inactive_coupon(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/coupons/#{code}/inactive")
       end
 
       private
