@@ -1,0 +1,20 @@
+{
+  code: "coupon-0002",
+  name: "Coupon name2",
+  description: "My new coupon",
+  discount: {
+      value: 11000,
+      type: "percent"
+  },
+  status: "active",
+  duration: {
+      type: "repeating",
+      occurrences: 12
+  },
+  max_redemptions: 1000,
+  expiration_date: {
+      year: 2025,
+      month: 8,
+      day: 1
+  }
+}
