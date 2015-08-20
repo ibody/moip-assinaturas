@@ -37,6 +37,13 @@ describe Moip::Assinaturas::Coupon do
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_coupons.json'),
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/coupons/coupon-0001",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_coupon.json'),
+      status: [200, 'OK']
+    )
   end
 
   it "should create a new coupon" do
@@ -49,6 +56,12 @@ describe Moip::Assinaturas::Coupon do
     request = Moip::Assinaturas::Coupon.list
     request[:success].should be_truthy
     request[:coupons].size.should == 1
+  end
+
+  it "details a coupon" do
+    request = Moip::Assinaturas::Coupon.details('coupon-0001')
+    request[:success].should be_truthy
+    request[:coupon][:code] == "coupon-0001"
   end
  
 end
