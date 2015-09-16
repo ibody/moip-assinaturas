@@ -114,24 +114,24 @@ describe Moip::Assinaturas::Customer do
 
   it "should create a new customer" do
     request = Moip::Assinaturas::Customer.create(@customer)
-    request[:success].should be_true
+    request[:success].should be_truthy
   end
 
   it "should list all customers" do
     request = Moip::Assinaturas::Customer.list
-    request[:success].should         be_true
+    request[:success].should be_truthy
     request[:customers].size.should  == 1
   end
 
   describe 'update customer information' do
     it 'should update a customer information' do
       request = Moip::Assinaturas::Customer.update(@customer[:code], { fullname: 'Foo Bar' })
-      request[:success].should         be_true
+      request[:success].should be_truthy
     end
 
     it 'should return not found when updating a customer that does not exist' do
       request = Moip::Assinaturas::Customer.update('not_found', { fullname: 'Foo Bar' })
-      request[:success].should         be_false
+      request[:success].should be_falsey
       request[:message].should == 'not found'
     end
   end
@@ -139,13 +139,13 @@ describe Moip::Assinaturas::Customer do
   describe 'customer details' do
     it "should get the customer details" do
       request = Moip::Assinaturas::Customer.details('18')
-      request[:success].should             be_true
+      request[:success].should be_truthy
       request[:customer][:code].should     == '18'
     end
 
     it "should return not found when the customer does not exist" do
       request = Moip::Assinaturas::Customer.details('not_found')
-      request[:success].should             be_false
+      request[:success].should be_falsey
       request[:message].should ==          'not found'
     end
   end
@@ -160,24 +160,24 @@ describe Moip::Assinaturas::Customer do
       }
     })
 
-    request[:success].should be_true
+    request[:success].should be_truthy
   end
 
   context "Custom Authentication" do
     it "should create a new customer in other moip account" do
       request = Moip::Assinaturas::Customer.create(@customer, true, moip_auth: $custom_moip_auth)
-      request[:success].should be_true
+      request[:success].should be_truthy
     end
 
     it "should list all customers from custom moip account" do
       request = Moip::Assinaturas::Customer.list(moip_auth: $custom_moip_auth)
-      request[:success].should         be_true
+      request[:success].should be_truthy
       request[:customers].size.should  == 1
     end
 
     it "should get the customer details of custom moip account" do
       request = Moip::Assinaturas::Customer.details('18', moip_auth: $custom_moip_auth)
-      request[:success].should             be_true
+      request[:success].should be_truthy
       request[:customer][:code].should     == '19'
     end
 
@@ -191,7 +191,7 @@ describe Moip::Assinaturas::Customer do
         }
       }, moip_auth: $custom_moip_auth)
 
-      request[:success].should be_true
+      request[:success].should be_truthy
     end
   end
 end

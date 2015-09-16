@@ -131,57 +131,69 @@ describe Moip::Assinaturas::Subscription do
       body: '',
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :delete,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1/coupon",
+      body: File.join(File.dirname(__FILE__), '..', 'fixtures', 'delete_coupon_subscription.json'),
+      status: [200, 'OK']
+    )
   end
 
   it "should create a new subscription" do
     request = Moip::Assinaturas::Subscription.create(@subscription)
-    request[:success].should be_true
+    request[:success].should be_truthy
     request[:subscription][:code].should == 'ass_homolog_72'
   end
 
   it "should update a subscription" do
     request = Moip::Assinaturas::Subscription.update(@subscription[:code], { amount: 9990 })
-    request[:success].should be_true
+    request[:success].should be_truthy
   end
 
   it "should list all subscriptions" do
     request = Moip::Assinaturas::Subscription.list
-    request[:success].should             be_true
+    request[:success].should             be_truthy
     request[:subscriptions].size.should  == 1
   end
 
   describe 'subscription details' do
     it "should get the subscription details" do
       request = Moip::Assinaturas::Subscription.details('assinatura1')
-      request[:success].should                be_true
+      request[:success].should                be_truthy
       request[:subscription][:code].should == 'assinatura1'
     end
 
     it 'should return not found when the subscription does not exist' do
       request = Moip::Assinaturas::Subscription.details('not_found')
-      request[:success].should                be_false
+      request[:success].should                be_falsey
       request[:message].should == 'not found'
     end
   end
 
   it "should suspend a subscription" do
     request = Moip::Assinaturas::Subscription.suspend('assinatura1')
-    request[:success].should be_true
+    request[:success].should be_truthy
   end
 
   it "should reactive a subscription" do
     request = Moip::Assinaturas::Subscription.activate('assinatura1')
-    request[:success].should be_true
+    request[:success].should be_truthy
   end
 
   it "should suspend a subscription" do
     request = Moip::Assinaturas::Subscription.suspend('assinatura1')
-    request[:success].should be_true
+    request[:success].should be_truthy
   end
 
   it "should cancel a subscription" do
     request = Moip::Assinaturas::Subscription.cancel('assinatura1')
-    request[:success].should be_true
+    request[:success].should be_truthy
+  end
+
+  it "should delete a coupon of subscription" do
+    request = Moip::Assinaturas::Subscription.delete_coupon('assinatura1')
+    request[:success].should be_truthy
   end
 
   context "Trial" do
@@ -194,35 +206,35 @@ describe Moip::Assinaturas::Subscription do
   context "Custom Authentication" do
     it "should create a new subscription from a custom moip account" do
       request = Moip::Assinaturas::Subscription.create(@subscription, false, moip_auth: $custom_moip_auth)
-      request[:success].should be_true
+      request[:success].should be_truthy
       request[:subscription][:code].should == 'ass_homolog_72'
     end
 
     it "should list all subscriptions from a custom moip account" do
       request = Moip::Assinaturas::Subscription.list(moip_auth: $custom_moip_auth)
-      request[:success].should             be_true
+      request[:success].should             be_truthy
       request[:subscriptions].size.should  == 1
     end
 
     it "should get the subscription details from a custom moip account" do
       request = Moip::Assinaturas::Subscription.details('assinatura2', moip_auth: $custom_moip_auth)
-      request[:success].should                be_true
+      request[:success].should                be_truthy
       request[:subscription][:code].should == 'assinatura2'
     end
 
     it "should suspend a subscription from a custom moip account" do
       request = Moip::Assinaturas::Subscription.suspend('assinatura2', moip_auth: $custom_moip_auth)
-      request[:success].should be_true
+      request[:success].should be_truthy
     end
 
     it "should reactive a subscription from a custom moip account" do
       request = Moip::Assinaturas::Subscription.activate('assinatura2', moip_auth: $custom_moip_auth)
-      request[:success].should be_true
+      request[:success].should be_truthy
     end
 
     it "should cancel a subscription from a custom moip account" do
       request = Moip::Assinaturas::Subscription.cancel('assinatura2', moip_auth: $custom_moip_auth)
-      request[:success].should be_true
+      request[:success].should be_truthy
     end
   end
 

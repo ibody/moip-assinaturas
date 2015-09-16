@@ -107,6 +107,11 @@ module Moip::Assinaturas
         peform_action!(:put, "/subscriptions/#{code}/cancel", opts, true)
       end
 
+      def delete_coupon_subscription(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:delete, "/subscriptions/#{code}/coupon")
+      end
+
       def list_invoices(subscription_code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
         peform_action!(:get, "/subscriptions/#{subscription_code}/invoices", opts)
@@ -125,6 +130,31 @@ module Moip::Assinaturas
       def details_payment(id, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
         peform_action!(:get, "/payments/#{id}", opts)
+      end
+
+      def create_coupon(coupon, opts={})
+        prepare_options(opts, { body: coupon.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:post, "/coupons", opts)
+      end
+
+      def list_coupon(opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/coupons", opts)
+      end
+
+      def details_coupon(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:get, "/coupons/#{code}", opts)
+      end
+
+      def active_coupon(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/coupons/#{code}/active")
+      end
+
+      def inactive_coupon(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/coupons/#{code}/inactive")
       end
 
       private
@@ -163,7 +193,6 @@ module Moip::Assinaturas
           if ((Moip::Assinaturas.token.blank? or Moip::Assinaturas.key.blank?) and (options[:headers]["Authorization"].blank?))
             raise(MissingTokenError, "Informe o token e a key para realizar a autenticação no webservice")
           end
-
           response = self.send(action_name, url, options)
 
           # when updating a plan the response body is empty and then
