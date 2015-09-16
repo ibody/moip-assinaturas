@@ -106,65 +106,65 @@ describe Moip::Assinaturas::Plan do
 
   it "should can create a new plan" do
     request = Moip::Assinaturas::Plan.create(@plan)
-    request[:success].should      be_true
+    request[:success].should      be_truthy
     request[:plan][:code].should  == 'plano01'
   end
 
   it "should list all plans" do
     request = Moip::Assinaturas::Plan.list
-    request[:success].should    be_true
+    request[:success].should    be_truthy
     request[:plans].size.should == 1
   end
 
   describe 'plan details' do
     it "should get details from a plan" do
       request = Moip::Assinaturas::Plan.details('plano01')
-      request[:success].should      be_true
+      request[:success].should      be_truthy
       request[:plan][:code].should  == 'plano01'
     end
 
     it 'should return not found when a plan does not exist' do
       request = Moip::Assinaturas::Plan.details('not_found')
-      request[:success].should      be_false
+      request[:success].should      be_falsey
       request[:message].should  == 'not found'
     end
   end
 
   it "should update an existing plan" do
     request = Moip::Assinaturas::Plan.update(@plan)
-    request[:success].should      be_true
+    request[:success].should      be_truthy
   end
 
   context "Trial" do
     it "should get details from a plan with trial" do
       request = Moip::Assinaturas::Plan.details('plano01')
       expect(request[:plan][:trial][:days]).to eq 10
-      expect(request[:plan][:trial][:enabled]).to be_true
+      expect(request[:plan][:trial][:enabled]).to be_truthy
     end
   end
 
   context "Custom Authentication" do
     it "should create a new plan in other moip account" do
       request = Moip::Assinaturas::Plan.create(@plan2, moip_auth: $custom_moip_auth)
-      request[:success].should      be_true
+      request[:success].should      be_truthy
       request[:plan][:code].should  == 'plano02'
     end
 
     it "should list all plans from other moip account" do
       request = Moip::Assinaturas::Plan.list(moip_auth: $custom_moip_auth)
-      request[:success].should    be_true
+      request[:success].should    be_truthy
       request[:plans].size.should == 1
     end
 
     it "should get details from a plan of other moip account" do
       request = Moip::Assinaturas::Plan.details('plano02', moip_auth: $custom_moip_auth)
-      request[:success].should      be_true
+      request[:success].should      be_truthy
       request[:plan][:code].should  == 'plano02'
     end
 
     it "should update an existing plan of other moip account" do
       request = Moip::Assinaturas::Plan.update(@plan2, moip_auth: $custom_moip_auth)
-      request[:success].should      be_true
+      request[:success].should      be_truthy
     end
   end
 
