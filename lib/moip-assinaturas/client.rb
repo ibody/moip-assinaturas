@@ -149,12 +149,12 @@ module Moip::Assinaturas
 
       def active_coupon(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:put, "/coupons/#{code}/active")
+        peform_action!(:put, "/coupons/#{code}/active", opts)
       end
 
       def inactive_coupon(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:put, "/coupons/#{code}/inactive")
+        peform_action!(:put, "/coupons/#{code}/inactive", opts)
       end
 
       private
@@ -201,7 +201,6 @@ module Moip::Assinaturas
           if response.nil? && !accepts_blank_body
             raise(WebServerResponseError, "Ocorreu um erro ao chamar o webservice")
           end
-
           response
         end
 
