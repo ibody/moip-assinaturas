@@ -60,8 +60,8 @@ module Moip::Assinaturas
         end
       end
 
-      def active(code)
-        response = Moip::Assinaturas::Client.active_coupon(code)
+      def active(code, opts={})
+        response = Moip::Assinaturas::Client.active_coupon(code, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
@@ -81,8 +81,8 @@ module Moip::Assinaturas
         end
       end
 
-      def inactive(code)
-        response = Moip::Assinaturas::Client.inactive_coupon(code)
+      def inactive(code, opts={})
+        response = Moip::Assinaturas::Client.inactive_coupon(code, opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
