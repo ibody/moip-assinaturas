@@ -26,7 +26,7 @@ module Moip::Assinaturas
         when 200
           return {
             success: true,
-            coupon:    array
+            coupon:    hash
           }
         when 400
           return {
@@ -47,7 +47,7 @@ module Moip::Assinaturas
         when 201
           return {
             success: true,
-            coupon:    array
+            coupon:    hash
           }
         when 400
           return {
@@ -68,7 +68,7 @@ module Moip::Assinaturas
         when 200
           return {
             success: true,
-            coupon:    array
+            coupon:    hash
           }
         when 400
           return {
@@ -89,7 +89,7 @@ module Moip::Assinaturas
         when 200
           return {
             success: true,
-            coupon:    array
+            coupon:    hash
           }
         when 400
           return {
