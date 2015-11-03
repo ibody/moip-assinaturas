@@ -51,7 +51,9 @@ module Moip::Assinaturas
           }
         when 400
           return {
-            success: false
+            success: false,
+            message: hash['message'],
+            errors:  hash['errors']
           }
         else
           raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
