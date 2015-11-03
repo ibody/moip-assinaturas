@@ -49,7 +49,7 @@ module Moip::Assinaturas
           return {
             success:  true
           }
-        when 404
+        when 400
           return {
             success: false
           }
