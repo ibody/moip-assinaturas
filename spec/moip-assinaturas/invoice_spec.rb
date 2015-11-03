@@ -40,6 +40,20 @@ describe Moip::Assinaturas::Invoice do
       status: [200, 'OK']
     )
 
+    FakeWeb.register_uri(
+      :post,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/invoices/INV-998789/retry",
+      body:  '',
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :post,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/invoices/INV-998779/retry",
+      body:  '',
+      status: [404, 'not found']
+    )
+
   end
 
   it "should list all invoices from a subscription" do
@@ -58,6 +72,18 @@ describe Moip::Assinaturas::Invoice do
       request = Moip::Assinaturas::Invoice.details('not_found')
       request[:success].should       be_falsey
       request[:message].should  == 'not found'
+    end
+  end
+
+  context "invoice retry" do
+    it "should retry invoice" do
+      request = Moip::Assinaturas::Invoice.retry "INV-998789"
+      expect(request[:success]).to be_truthy
+    end
+
+    it "should not retry Invoice" do
+      request = Moip::Assinaturas::Invoice.retry "INV-998779"
+      expect(request[:success]).to be_falsey
     end
   end
 

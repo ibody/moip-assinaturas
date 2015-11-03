@@ -39,6 +39,25 @@ module Moip::Assinaturas
         end
       end
 
+      def retry(id, opts = {})
+        response = Moip::Assinaturas::Client.retry_invoice(id, opts)
+        hash     = JSON.load response.body
+        hash     = hash.with_indifferent_access if hash
+
+        case response.code
+        when 200
+          return {
+            success:  true
+          }
+        when 400
+          return {
+            success: false
+          }
+        else
+          raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
+        end
+      end
+
     end
   end
 end
