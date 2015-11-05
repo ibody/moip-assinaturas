@@ -82,9 +82,11 @@ module Moip::Assinaturas
         peform_action!(:put, "/subscriptions/#{subscription_code}", opts, true)
       end
 
-      def list_subscriptions(opts={})
+      def list_subscriptions(opts={}, query_params)
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' } })
-        peform_action!(:get, "/subscriptions", opts)
+        
+        peform_action!(:get, "/subscriptions", opts) if query_params.nil
+        peform_action!(:get, "/subscriptions?filters=#{query_params}", opts) unless query_params.nil
       end
 
       def details_subscription(code, opts={})
