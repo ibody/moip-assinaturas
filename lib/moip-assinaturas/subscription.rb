@@ -46,8 +46,8 @@ module Moip::Assinaturas
       end
 
 
-      def list(opts={}, query_params = nil)
-        response = Moip::Assinaturas::Client.list_subscriptions(opts, query_params)
+      def list(opts={})
+        response = Moip::Assinaturas::Client.list_subscriptions(opts)
         hash     = JSON.load(response.body).with_indifferent_access
 
         case response.code
