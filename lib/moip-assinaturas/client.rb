@@ -85,7 +85,7 @@ module Moip::Assinaturas
       def list_subscriptions(opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' } })
         
-        puts "<<<<<<<<< #{opts[:query_params]}" 
+        puts "<<<<<<<<< #{opts.inspect}" 
         puts "$$$$$$$$$$$$$ Tem parametro #{opts.include?('query_params')}"
 
         return peform_action!(:get, "/subscriptions", opts) unless opts.include?(:query_params)
