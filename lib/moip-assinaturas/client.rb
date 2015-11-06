@@ -88,8 +88,10 @@ module Moip::Assinaturas
         puts "<<<<<<<<< #{opts.inspect}" 
         puts "$$$$$$$$$$$$$ Tem parametro #{opts.include?('query_params')}"
 
-        return peform_action!(:get, "/subscriptions", opts) unless opts.include?(:query_params)
-        return peform_action!(:get, "/subscriptions#{opts[:query_params]}", opts) if opts.include?(:query_params)
+        puts "%%%%%%%%%%5 URI= #{"/subscriptions#{opts['query_params']}"}"
+
+        return peform_action!(:get, "/subscriptions", opts) unless opts.include?('query_params')
+        return peform_action!(:get, "/subscriptions#{opts['query_params']}", opts) if opts.include?('query_params')
       end
 
       def details_subscription(code, opts={})
