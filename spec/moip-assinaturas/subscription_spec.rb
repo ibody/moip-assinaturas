@@ -165,16 +165,16 @@ describe Moip::Assinaturas::Subscription do
   end
 
     it "should list subscriptions using query param" do
-    request = Moip::Assinaturas::Subscription.list(query_params: 'filters=status::eq(ACTIVE)')
-    request[:success].should             be_truthy
-    request[:subscriptions].size.should  == 3
+    request = Moip::Assinaturas::Subscription.list(query_params: '?filters=status::eq(ACTIVE)')
+    expect(request[:success]).to             be_truthy
+    expect(request[:subscriptions].size).to  eq 3
   end
 
   describe 'subscription details' do
     it "should get the subscription details" do
       request = Moip::Assinaturas::Subscription.details('assinatura1')
-      request[:success].should                be_truthy
-      request[:subscription][:code].should == 'assinatura1'
+      expect(request[:success]).to      be_truthy
+      expect(request[:subscription][:code]).to eq "assinatura1"
     end
 
     it 'should return not found when the subscription does not exist' do

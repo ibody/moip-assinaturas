@@ -84,9 +84,7 @@ module Moip::Assinaturas
 
       def list_subscriptions(opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' } })
-        
-        return peform_action!(:get, "/subscriptions", opts) unless opts.include?('query_params')
-        return peform_action!(:get, "/subscriptions#{opts['query_params']}", opts) if opts.include?('query_params')
+        filter_subscription(opts)
       end
 
       def details_subscription(code, opts={})
@@ -168,6 +166,13 @@ module Moip::Assinaturas
         def oauth?(authorization_hash)
           raise MissingTokenError.new if authorization_hash.nil? || !authorization_hash.downcase.include?("oauth")
           true
+        end
+
+        def filter_subscription(opts)
+          if opts.include?(:query_params)
+            return peform_action!(:get, "/subscriptions#{opts[:query_params]}", opts)
+          end
+          return peform_action!(:get, "/subscriptions", opts)
         end
 
         def prepare_options(custom_options, required_options)
