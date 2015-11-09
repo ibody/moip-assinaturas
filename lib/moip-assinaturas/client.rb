@@ -84,7 +84,7 @@ module Moip::Assinaturas
 
       def list_subscriptions(opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' } })
-        filter_subscription(opts)
+        return peform_action!(:get, build_url_subscription(opts),opts)
       end
 
       def details_subscription(code, opts={})
@@ -168,11 +168,11 @@ module Moip::Assinaturas
           true
         end
 
-        def filter_subscription(opts)
+        def build_url_subscription(opts)
           if opts.include?(:query_params)
-            return peform_action!(:get, "/subscriptions#{opts[:query_params]}", opts)
+            return "/subscriptions#{opts[:query_params]}"
           end
-          return peform_action!(:get, "/subscriptions", opts)
+          return "/subscriptions"
         end
 
         def prepare_options(custom_options, required_options)
