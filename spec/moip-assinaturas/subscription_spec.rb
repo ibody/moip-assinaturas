@@ -49,6 +49,13 @@ describe Moip::Assinaturas::Subscription do
 
     FakeWeb.register_uri(
       :get,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions?filters=status::eq(ACTIVE)",
+      body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_subscriptions_queried.json'),
+      status: [200, 'OK']
+    )    
+
+    FakeWeb.register_uri(
+      :get,
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions/assinatura1",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'details_subscription.json'),
       status: [200, 'OK']
@@ -157,11 +164,17 @@ describe Moip::Assinaturas::Subscription do
     request[:subscriptions].size.should  == 1
   end
 
+    it "should list subscriptions using query param" do
+    request = Moip::Assinaturas::Subscription.list(query_params: '?filters=status::eq(ACTIVE)')
+    expect(request[:success]).to             be_truthy
+    expect(request[:subscriptions].size).to  eq 3
+  end
+
   describe 'subscription details' do
     it "should get the subscription details" do
       request = Moip::Assinaturas::Subscription.details('assinatura1')
-      request[:success].should                be_truthy
-      request[:subscription][:code].should == 'assinatura1'
+      expect(request[:success]).to      be_truthy
+      expect(request[:subscription][:code]).to eq "assinatura1"
     end
 
     it 'should return not found when the subscription does not exist' do
