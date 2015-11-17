@@ -54,6 +54,7 @@ module Moip::Assinaturas
         when 200
           return {
             success: true,
+            summary: hash[:summary],
             subscriptions: hash[:subscriptions]
           }
         else
