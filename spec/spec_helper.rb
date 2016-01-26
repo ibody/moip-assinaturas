@@ -2,11 +2,14 @@ require 'rspec'
 require 'fakeweb'
 require 'pry'
 require 'moip-assinaturas'
+require 'simplecov'
+
+SimpleCov.start
 
 FakeWeb.allow_net_connect = false
 
 RSpec.configure do |config|
-  config.color_enabled = true
+  config.color = true
   config.formatter     = 'documentation'
   
   config.before(:suite) do
