@@ -128,6 +128,16 @@ describe Moip::Assinaturas::Plan do
       request[:success].should      be_falsey
       request[:message].should  == 'not found'
     end
+
+    it "should inactivate a plan" do
+      request = Moip::Assinaturas::Plan.inactivate("plano02")
+      request[:success].should be_truthy
+    end
+
+    it "should reactive a plan" do
+      request = Moip::Assinaturas::Plan.activate("plano02")
+      request[:success].should be_truthy
+    end
   end
 
   it "should update an existing plan" do

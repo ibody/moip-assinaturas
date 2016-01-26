@@ -49,7 +49,7 @@ module Moip::Assinaturas
 
       def inactivate_plan(code, opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:put, "/plans/#{code}/suspend", opts, true)
+        peform_action!(:put, "/plans/#{code}/inactivate", opts, true)
       end
 
       def activate_plan(code, opts={})

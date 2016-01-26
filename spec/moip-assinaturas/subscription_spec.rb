@@ -52,7 +52,7 @@ describe Moip::Assinaturas::Subscription do
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/subscriptions?filters=status::eq(ACTIVE)",
       body:   File.join(File.dirname(__FILE__), '..', 'fixtures', 'list_subscriptions_queried.json'),
       status: [200, 'OK']
-    )    
+    )
 
     FakeWeb.register_uri(
       :get,
@@ -191,11 +191,6 @@ describe Moip::Assinaturas::Subscription do
 
   it "should reactive a subscription" do
     request = Moip::Assinaturas::Subscription.activate('assinatura1')
-    request[:success].should be_truthy
-  end
-
-  it "should suspend a subscription" do
-    request = Moip::Assinaturas::Subscription.suspend('assinatura1')
     request[:success].should be_truthy
   end
 
