@@ -102,6 +102,20 @@ describe Moip::Assinaturas::Plan do
       body:   "",
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/plans/plano02/activate",
+      body: '',
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/plans/plano02/inactivate",
+      body: '',
+      status: [200, 'OK']
+    )
   end
 
   it "should can create a new plan" do
