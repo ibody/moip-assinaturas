@@ -47,6 +47,16 @@ module Moip::Assinaturas
         peform_action!(:put, "/plans/#{plan[:code]}", opts, true)
       end
 
+      def inactivate_plan(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/plans/#{code}/inactivate", opts, true)
+      end
+
+      def activate_plan(code, opts={})
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/plans/#{code}/activate", opts, true)
+      end
+
       def create_customer(customer, new_vault, opts={})
         prepare_options(opts, { body: customer.to_json, headers: { 'Content-Type' => 'application/json' } })
         peform_action!(:post, "/customers?new_vault=#{new_vault}", opts)

@@ -102,6 +102,20 @@ describe Moip::Assinaturas::Plan do
       body:   "",
       status: [200, 'OK']
     )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/plans/plano02/activate",
+      body: '',
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :put,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/plans/plano02/inactivate",
+      body: '',
+      status: [200, 'OK']
+    )
   end
 
   it "should can create a new plan" do
@@ -127,6 +141,16 @@ describe Moip::Assinaturas::Plan do
       request = Moip::Assinaturas::Plan.details('not_found')
       request[:success].should      be_falsey
       request[:message].should  == 'not found'
+    end
+
+    it "should inactivate a plan" do
+      request = Moip::Assinaturas::Plan.inactivate("plano02")
+      request[:success].should be_truthy
+    end
+
+    it "should reactive a plan" do
+      request = Moip::Assinaturas::Plan.activate("plano02")
+      request[:success].should be_truthy
     end
   end
 
