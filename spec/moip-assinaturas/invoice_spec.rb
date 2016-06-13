@@ -42,6 +42,20 @@ describe Moip::Assinaturas::Invoice do
 
     FakeWeb.register_uri(
       :post,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/invoices/998789/notify",
+      body:  '',
+      status: [200, 'OK']
+    )
+
+    FakeWeb.register_uri(
+      :post,
+      "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/invoices/998779/notify",
+      body:  '',
+      status: [404, 'not found']
+    )
+
+    FakeWeb.register_uri(
+      :post,
       "https://TOKEN:KEY@api.moip.com.br/assinaturas/v1/invoices/INV-998789/retry",
       body:  '',
       status: [200, 'OK']
@@ -83,6 +97,18 @@ describe Moip::Assinaturas::Invoice do
 
     it "should not retry Invoice" do
       request = Moip::Assinaturas::Invoice.retry "INV-998779"
+      expect(request[:success]).to be_falsey
+    end
+  end
+
+  context "invoice notify" do
+    it "should notify invoice" do
+      request = Moip::Assinaturas::Invoice.notify "998789"
+      expect(request[:success]).to be_truthy
+    end
+
+    it "should not notify Invoice" do
+      request = Moip::Assinaturas::Invoice.notify "998779"
       expect(request[:success]).to be_falsey
     end
   end

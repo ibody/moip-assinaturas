@@ -60,6 +60,25 @@ module Moip::Assinaturas
         end
       end
 
+      def notify(invoice_id, opts = {})
+        response = Moip::Assinaturas::Client.notify_invoice(invoice_id, opts)
+        hash     = JSON.load(response.body)
+        hash     = hash ? hash.with_indifferent_access : {}
+
+        case response.code
+        when 200
+          return { success: true }
+        when 400
+          return {
+            success: false,
+            message: hash['message'],
+            errors:  hash['errors']
+          }
+        else
+          raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
+        end
+      end
+
     end
   end
 end
