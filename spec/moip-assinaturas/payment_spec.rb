@@ -37,26 +37,26 @@ describe Moip::Assinaturas::Payment do
 
   it "should get all payments from a invoice" do
     request = Moip::Assinaturas::Payment.list(13)
-    request[:success].should    be_true
+    request[:success].should    be_truthy
     request[:payments].size.should == 1
   end
 
   it "should get details of a payment" do
     request = Moip::Assinaturas::Payment.details(6)
-    request[:success].should        be_true
+    request[:success].should        be_truthy
     request[:payment][:id].should   == 6
   end
 
   context "Custom Authentication" do
     it "should get all payments from a invoice" do
       request = Moip::Assinaturas::Payment.list(14, moip_auth: $custom_moip_auth)
-      request[:success].should    be_true
+      request[:success].should    be_truthy
       request[:payments].size.should == 1
     end
 
     it "should get details of a payment" do
       request = Moip::Assinaturas::Payment.details(7, moip_auth: $custom_moip_auth)
-      request[:success].should        be_true
+      request[:success].should        be_truthy
       request[:payment][:id].should   == 7
     end
 

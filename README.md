@@ -98,6 +98,18 @@ Atualizar informações do plano:
 Moip::Assinaturas::Plan.update(plan_attributes)
 ```
 
+Desativar um plano:
+
+```ruby
+Moip::Assinaturas::Plan.inactivate(plan_code)
+```
+
+Ativar um plano:
+
+```ruby
+Moip::Assinaturas::Plan.activate(plan_code)
+```
+
 ## Clientes
 
 Criar um novo cliente:
