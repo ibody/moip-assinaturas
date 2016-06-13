@@ -54,6 +54,7 @@ module Moip::Assinaturas
         when 200
           return {
             success: true,
+            summary: hash[:summary],
             subscriptions: hash[:subscriptions]
           }
         else
@@ -140,7 +141,26 @@ module Moip::Assinaturas
         end
       end
 
-    end
+      def delete_coupon(code)
+        response = Moip::Assinaturas::Client.delete_coupon_subscription(code)
+        hash     = JSON.load(response.body)
+        hash     = hash ? hash.with_indifferent_access : {}
 
+        case response.code
+        when 200
+          return { success: true }
+        when 400
+          return {
+            success: false,
+            message: hash[:message],
+            errors:  hash[:errors]
+          }
+        else
+          raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
+        end
+
+      end
+
+    end
   end
 end
